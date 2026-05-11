@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Hub</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Body nền trắng */
+    body {
+      background: #fff8e7; /* nền sáng pastel */
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .menu-bar li a:hover, .menu-bar li a.active {
+      background-color: #f57c00;
+      color: white;
+    }
+
+    /* Banner Welcome */
+    .banner {
+      background-color: #FFEB3B; /* nền vàng */
+      text-align: center;
+      padding: 50px 20px;
+      font-size: 36px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 40px;
+      border-radius: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Games container */
+    .games-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      padding: 0 20px 50px 20px;
+      position: relative;
+      z-index: 5;
+    }
+
+    /* Game boxes */
+    .game-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 300px;
+      height: 180px;
+      text-decoration: none;
+      font-size: 26px;
+      font-weight: bold;
+      color: white;
+      border-radius: 20px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Box màu gradient */
+    .game-box:nth-child(1) { background: linear-gradient(45deg, #ff6a00, #ee0979); }
+    .game-box:nth-child(2) { background: linear-gradient(45deg, #11998e, #38ef7d); }
+    .game-box:nth-child(3) { background: linear-gradient(45deg, #00c6ff, #0072ff); }
+
+    /* Hover effect */
+    .game-box:hover {
+      transform: translateY(-10px) scale(1.05);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+    }
+
+    /* Sticker */
+    .sticker {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      animation: floatSticker 10s infinite linear;
+      z-index: 1;
+    }
+
+    @keyframes floatSticker {
+      0% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(15deg); }
+      100% { transform: translateY(0px) rotate(0deg); }
+    }
+
+    /* Responsive */
+    @media (max-width: 960px) {
+      .game-box { width: 45%; height: 160px; }
+      .sticker { width: 50px; height: 50px; }
+      .banner { font-size: 28px; padding: 40px 20px; }
+    }
+
+    @media (max-width: 600px) {
+      .game-box { width: 90%; height: 140px; font-size: 22px; }
+      .sticker { width: 40px; height: 40px; }
+      .banner { font-size: 24px; padding: 30px 15px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Menu -->
+  <nav>
+  <ul>
+    <li><a href="index.html">🏠 Home</a></li>
+    <li><a href="lessons.html">📘 Lessons</a></li>
+    <li><a href="games.html">🎮 Games</a></li>
+    <li><a href="discuss.html">💬 Discuss</a></li>
+    <li><a href="status.html">📊 Status</a></li>
+    <li><a href="quizz.html">📝 Quiz</a></li>
+    <li><a href="test.html">📝 Test</a></li> </ul>
+</nav>
+  <!-- Banner Welcome -->
+  <div class="banner">Welcome to Game Hub!</div>
+
+  <!-- Games -->
+  <div class="games-container">
+    <a href="bamboozle/bamboozle.html" class="game-box">Bamboozle</a>
+    <a href="quizz.html" class="game-box">Quiz</a>
+    <a href="flashcash/flashcash.html" class="game-box">Flashcash</a>
+  </div>
+
+  <!-- Sticker ví dụ -->
+  <div class="sticker" style="top:50px; left:20px; background-image:url('stickers/star.png');"></div>
+  <div class="sticker" style="top:150px; left:300px; background-image:url('stickers/heart.png');"></div>
+  <div class="sticker" style="top:250px; left:600px; background-image:url('stickers/smile.png');"></div>
+  <div class="sticker" style="top:100px; left:700px; background-image:url('stickers/coin.png');"></div>
+
+</body>
+</html>

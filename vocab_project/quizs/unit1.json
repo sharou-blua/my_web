@@ -1,0 +1,427 @@
+[
+  {
+    "question": "Từ 'account for' có nghĩa là gì?",
+    "choices": ["Chiếm, giải thích", "Tích lũy", "Đặt mục tiêu", "Từ bỏ"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'assess' nghĩa là gì?",
+    "choices": ["Đánh giá", "Giả định", "Tập trung", "Khẳng định"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'assume' nghĩa là gì?",
+    "choices": ["Cho rằng, giả định", "Suy ngẫm", "Thiên vị", "Phỏng đoán"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'baffle' nghĩa là gì?",
+    "choices": ["Làm bối rối, hoang mang", "Lạc quan", "Hoài nghi", "Khéo léo"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'biased' nghĩa là gì?",
+    "choices": ["Thiên vị, có thành kiến", "Tận tâm", "Ngây thơ", "Suy luận"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'concentrate' nghĩa là gì?",
+    "choices": ["Tập trung", "Cân nhắc", "Hồi tưởng", "Lơ đễnh"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'consider' nghĩa là gì?",
+    "choices": ["Cân nhắc, xem xét", "Hồi tưởng", "Đánh giá", "Suy ngẫm"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'contemplate' nghĩa là gì?",
+    "choices": ["Suy ngẫm", "Tập trung", "Làm bối rối", "Lạc quan"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'cynical' nghĩa là gì?",
+    "choices": ["Hoài nghi, yếm thế", "Thiên vị", "Tận tâm", "Khéo léo"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'deduce' nghĩa là gì?",
+    "choices": ["Suy luận", "Đánh giá", "Ước tính", "Suy ngẫm"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'deliberate' nghĩa là gì?",
+    "choices": ["Suy nghĩ thận trọng", "Thiên vị", "Tận tâm", "Biện minh"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'dilemma' nghĩa là gì?",
+    "choices": ["Tình thế khó xử", "Nghịch lý", "Linh cảm", "Quan niệm"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'discriminate' nghĩa là gì?",
+    "choices": ["Phân biệt đối xử", "Biện minh", "Hoài nghi", "Suy đoán"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'dubious' nghĩa là gì?",
+    "choices": ["Nghi ngờ, không đáng tin", "Lạc quan", "Ngây thơ", "Linh cảm"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'estimate' nghĩa là gì?",
+    "choices": ["Ước tính", "Nghi ngờ", "Linh cảm", "Suy đoán"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'faith' nghĩa là gì?",
+    "choices": ["Niềm tin", "Sự phỏng đoán", "Linh cảm", "Quan niệm"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'gather' nghĩa là gì?",
+    "choices": ["Hiểu, tin rằng", "Tập trung", "Thu thập", "Trí tuệ"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'genius' nghĩa là gì?",
+    "choices": ["Thiên tài", "Trí thức", "Linh cảm", "Trực giác"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'grasp' nghĩa là gì?",
+    "choices": ["Nắm bắt, hiểu", "Lừa dối", "Suy nghĩ", "Phân biệt"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'guesswork' nghĩa là gì?",
+    "choices": ["Sự phỏng đoán", "Linh cảm", "Quan niệm", "Trực giác"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'hunch' nghĩa là gì?",
+    "choices": ["Linh cảm", "Suy đoán", "Giả định", "Trực giác"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'ideology' nghĩa là gì?",
+    "choices": ["Hệ tư tưởng", "Quan niệm", "Lý lẽ", "Nghịch lý"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'ingenious' nghĩa là gì?",
+    "choices": ["Khéo léo, tài tình", "Tận tâm", "Ngây thơ", "Trực giác"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'inspiration' nghĩa là gì?",
+    "choices": ["Nguồn cảm hứng", "Trực giác", "Trí tuệ", "Niềm tin"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'intuition' nghĩa là gì?",
+    "choices": ["Trực giác", "Linh cảm", "Suy đoán", "Quan niệm"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'justify' nghĩa là gì?",
+    "choices": ["Biện minh, bào chữa", "Đánh giá", "Suy luận", "Cân nhắc"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'naïve' nghĩa là gì?",
+    "choices": ["Ngây thơ", "Hoài nghi", "Thiên vị", "Lạc quan"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'notion' nghĩa là gì?",
+    "choices": ["Quan niệm", "Ý tưởng", "Trực giác", "Nghịch lý"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'optimistic' nghĩa là gì?",
+    "choices": ["Lạc quan", "Hoài nghi", "Bi quan", "Tận tâm"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'paradox' nghĩa là gì?",
+    "choices": ["Nghịch lý", "Linh cảm", "Quan niệm", "Tình thế khó xử"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'pessimistic' nghĩa là gì?",
+    "choices": ["Bi quan", "Lạc quan", "Hoài nghi", "Thiên vị"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'plausible' nghĩa là gì?",
+    "choices": ["Hợp lý, có khả năng đúng", "Nghi ngờ", "Linh cảm", "Trực giác"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'ponder' nghĩa là gì?",
+    "choices": ["Suy nghĩ, trầm ngâm", "Suy luận", "Đánh giá", "Cân nhắc"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'prejudiced' nghĩa là gì?",
+    "choices": ["Có thành kiến", "Ngây thơ", "Lạc quan", "Tận tâm"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'presume' nghĩa là gì?",
+    "choices": ["Cho là, giả định", "Nghi ngờ", "Ước tính", "Suy ngẫm"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'query' nghĩa là gì?",
+    "choices": ["Truy vấn, câu hỏi", "Biện minh", "Suy luận", "Cân nhắc"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'reckon' nghĩa là gì?",
+    "choices": ["Cho rằng, nghĩ rằng", "Ước tính", "Suy luận", "Nghi ngờ"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'reflect' nghĩa là gì?",
+    "choices": ["Suy ngẫm", "Tái hiện", "Biện minh", "Lạc quan"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'sceptical/skeptical' nghĩa là gì?",
+    "choices": ["Hoài nghi", "Tận tâm", "Ngây thơ", "Lạc quan"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'speculate' nghĩa là gì?",
+    "choices": ["Suy đoán", "Ước tính", "Nghi ngờ", "Cho rằng"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'suppose' nghĩa là gì?",
+    "choices": ["Cho rằng, giả sử", "Tập trung", "Biện minh", "Cân nhắc"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'reminisce' nghĩa là gì?",
+    "choices": ["Hồi tưởng", "Ước tính", "Suy ngẫm", "Tưởng tượng"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'conscientious' nghĩa là gì?",
+    "choices": ["Tận tâm, chu đáo", "Ngây thơ", "Thiên vị", "Lơ đễnh"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'cram' nghĩa là gì?",
+    "choices": ["Nhồi nhét", "Suy ngẫm", "Tập trung", "Học từ xa"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'curriculum' nghĩa là gì?",
+    "choices": ["Chương trình học", "Kỳ thi thử", "Lớp hướng dẫn", "Hội thảo"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'distance learning' nghĩa là gì?",
+    "choices": ["Học từ xa", "Tự học", "Học nhồi", "Học cấp tốc"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'ignorant' nghĩa là gì?",
+    "choices": ["Thiếu hiểu biết", "Lơ đễnh", "Có kiến thức", "Trí tuệ"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'inattentive' nghĩa là gì?",
+    "choices": ["Lơ đễnh, không chú ý", "Tận tâm", "Có thành kiến", "Ngây thơ"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'intellectual' nghĩa là gì?",
+    "choices": ["Trí thức, thuộc về trí tuệ", "Thiên tài", "Thiếu hiểu biết", "Có kiến thức"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'intensive' nghĩa là gì?",
+    "choices": ["Chuyên sâu, cấp tốc", "Tận tâm", "Nghi ngờ", "Lơ đễnh"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'knowledgeable' nghĩa là gì?",
+    "choices": ["Có kiến thức", "Trí thức", "Thiên tài", "Tận tâm"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'mock exam' nghĩa là gì?",
+    "choices": ["Kỳ thi thử", "Hội thảo", "Lớp hướng dẫn", "Thi chính thức"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'self-study' nghĩa là gì?",
+    "choices": ["Tự học", "Học nhồi", "Học cấp tốc", "Học từ xa"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'seminar' nghĩa là gì?",
+    "choices": ["Hội thảo", "Bài giảng", "Lớp hướng dẫn", "Kỳ thi thử"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'special needs' nghĩa là gì?",
+    "choices": ["Nhu cầu đặc biệt", "Khả năng đặc biệt", "Sự chăm sóc đặc biệt", "Sự hỗ trợ đặc biệt"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'tuition' nghĩa là gì?",
+    "choices": ["Học phí, sự dạy học", "Học bổng", "Bài giảng", "Chương trình học"],
+    "answer": 0
+  },
+  {
+    "question": "Từ 'tutorial' nghĩa là gì?",
+    "choices": ["Lớp hướng dẫn", "Hội thảo", "Bài giảng", "Thi thử"],
+    "answer": 0
+  },
+  {
+    "question": "Cụm động từ 'brush up' có nghĩa là gì?",
+    "choices": ["Trau dồi, ôn lại kiến thức", "Giải quyết vấn đề", "Nảy ra ý tưởng", "Học nhồi"],
+    "answer": 0
+  },
+  {
+    "question": "Cụm động từ 'puzzle out' có nghĩa là gì?",
+    "choices": ["Giải quyết vấn đề bằng cách suy nghĩ", "Ghi nhớ trong đầu", "Cân nhắc kỹ", "Phân biệt đối xử"],
+    "answer": 0
+  },
+  {
+    "question": "Cụm động từ 'come up with' có nghĩa là gì?",
+    "choices": ["Nảy ra một ý tưởng", "Đi thẳng vào vấn đề", "Tái hiện lại", "Suy ngẫm"],
+    "answer": 0
+  },
+  {
+    "question": "Cụm động từ 'swot up' có nghĩa là gì?",
+    "choices": ["Học nhồi, học vẹt", "Vắt óc suy nghĩ", "Làm bối rối", "Đạt được sự cân bằng"],
+    "answer": 0
+  },
+  {
+    "question": "Cụm từ 'take into account' có nghĩa là gì?",
+    "choices": ["Xem xét, cân nhắc", "Đưa ra câu hỏi", "Đưa ra kết luận", "Sống tử tế"],
+    "answer": 0
+  },
+  {
+    "question": "Cụm từ '(hang) in the balance' có nghĩa là gì?",
+    "choices": ["Trong tình trạng bấp bênh", "Đạt được sự cân bằng", "Làm mất thăng bằng", "Đi ngược lại nguyên tắc"],
+    "answer": 0
+  },
+  {
+    "question": "Cụm từ 'strike a balance' có nghĩa là gì?",
+    "choices": ["Đạt được sự cân bằng", "Trong tình trạng bấp bênh", "Làm mất thăng bằng", "Làm dấy lên nghi ngờ"],
+    "answer": 0
+  },
+  {
+    "question": "Cụm từ 'pick sb's brain(s)' có nghĩa là gì?",
+    "choices": ["Hỏi ý kiến, tận dụng kiến thức", "Làm bối rối", "Tẩy não", "Nghĩ ra"],
+    "answer": 0
+  },
+  {
+    "question": "Cụm từ 'rack your brain(s)' có nghĩa là gì?",
+    "choices": ["Vắt óc suy nghĩ", "Ghi nhớ trong đầu", "Tận dụng kiến thức", "Làm rõ sự thật"],
+    "answer": 0
+  },
+  {
+    "question": "Cụm từ 'make up your mind' có nghĩa là gì?",
+    "choices": ["Quyết định", "Tỉnh ngộ", "Tập trung", "Phân vân"],
+    "answer": 0
+  },
+  {
+    "question": "Cụm từ 'get straight to the point' có nghĩa là gì?",
+    "choices": ["Đi thẳng vào vấn đề", "Làm rõ sự thật", "Làm lại cuộc đời", "Bỏ cuộc"],
+    "answer": 0
+  },
+  {
+    "question": "Cụm từ 'beyond your wildest dreams' có nghĩa là gì?",
+    "choices": ["Vượt xa cả những gì bạn dám mơ ước", "Giấc mơ trở thành hiện thực", "Vọng tưởng viển vông", "Bị ám ảnh bởi một ý tưởng"],
+    "answer": 0
+  },
+  {
+    "question": "Cụm từ 'on account of' có nghĩa là gì?",
+    "choices": ["Bởi vì, do", "Thay vì", "Ngoài ra", "Tương tự như"],
+    "answer": 0
+  },
+  {
+    "question": "Cụm từ 'take your mind off' có nghĩa là gì?",
+    "choices": ["Quên đi, không nghĩ đến nữa", "Ghi nhớ trong đầu", "Tập trung vào", "Đang bận tâm"],
+    "answer": 0
+  },
+  {
+    "question": "Cụm từ 'in two minds about' có nghĩa là gì?",
+    "choices": ["Phân vân, lưỡng lự", "Đang bận tâm", "Có thành kiến", "Đang được xem xét"],
+    "answer": 0
+  },
+  {
+    "question": "Cụm từ 'have/bear in mind' có nghĩa là gì?",
+    "choices": ["Nhớ rằng, ghi nhớ", "Đang bận tâm", "Làm bối rối", "Vắt óc suy nghĩ"],
+    "answer": 0
+  },
+  {
+    "question": "Cụm từ 'look on the bright side' có nghĩa là gì?",
+    "choices": ["Nhìn vào mặt tích cực", "Nhìn ra bên ngoài", "Nhìn vào khía cạnh tiêu cực", "Nhìn một cách khách quan"],
+    "answer": 0
+  },
+  {
+    "question": "Cụm từ 'by sb's side' có nghĩa là gì?",
+    "choices": ["Bên cạnh ai đó", "Đứng về phía ai đó", "Đứng trước mặt ai đó", "Đối diện với ai đó"],
+    "answer": 0
+  },
+  {
+    "question": "Cụm từ 'on sb's side' có nghĩa là gì?",
+    "choices": ["Đứng về phía ai đó", "Bên cạnh ai đó", "Đối diện với ai đó", "Phía sau ai đó"],
+    "answer": 0
+  },
+  {
+    "question": "Cụm từ 'on either side (of)' có nghĩa là gì?",
+    "choices": ["Ở cả hai bên", "Ở một bên", "Ở phía trên", "Ở phía dưới"],
+    "answer": 0
+  },
+  {
+    "question": "Cụm từ 'set/put sb straight' có nghĩa là gì?",
+    "choices": ["Làm rõ, đính chính cho ai đó", "Thuyết phục ai đó", "Đưa ra lời khuyên", "Giả vờ"],
+    "answer": 0
+  },
+  {
+    "question": "Cụm từ 'set/put the record straight' có nghĩa là gì?",
+    "choices": ["Làm rõ sự thật", "Thiết lập quy tắc", "Ghi lại kỷ lục", "Duy trì sự ổn định"],
+    "answer": 0
+  },
+  {
+    "question": "Cụm từ 'get/go straight' có nghĩa là gì?",
+    "choices": ["Làm lại cuộc đời, sống tử tế", "Đi thẳng đến mục tiêu", "Đi một mạch", "Làm rõ sự thật"],
+    "answer": 0
+  },
+  {
+    "question": "Cụm từ 'straight talking' có nghĩa là gì?",
+    "choices": ["Nói thẳng thắn", "Nói lan man", "Nói chuyện riêng tư", "Nói dối"],
+    "answer": 0
+  },
+  {
+    "question": "Cụm từ 'see sth as' có nghĩa là gì?",
+    "choices": ["Coi cái gì đó là", "Nhìn thấy cái gì đó", "Phát hiện ra cái gì đó", "Nhìn từ một góc độ khác"],
+    "answer": 0
+  },
+  {
+    "question": "Cụm từ 'take the view that' có nghĩa là gì?",
+    "choices": ["Cho rằng, có quan điểm rằng", "Nắm lấy quan điểm", "Lấy làm ví dụ", "Nhìn nhận vấn đề"],
+    "answer": 0
+  },
+  {
+    "question": "Cụm từ 'come into view' có nghĩa là gì?",
+    "choices": ["Xuất hiện trong tầm nhìn", "Đi vào", "Nhìn thấy", "Tàng hình"],
+    "answer": 0
+  },
+  {
+    "question": "Cụm từ 'with a view to' có nghĩa là gì?",
+    "choices": ["Với mục đích", "Với quan điểm", "Với tầm nhìn", "Với suy nghĩ"],
+    "answer": 0
+  }
+]

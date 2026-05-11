@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full Test 1</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #f8fafc;
+            --panel-left: #ffffff;
+            --accent-gold: #fbbf24;
+            --btn-orange: #d97706;
+            --done-green: #22c55e;
+            --wrong-red: #ef4444;
+            --text-main: #1e293b;
+        }
+
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0; display: flex; flex-direction: column;
+            height: 100vh; background: var(--bg-body);
+            color: var(--text-main); overflow: hidden;
+        }
+
+        header {
+            height: 60px; background: white; display: flex;
+            justify-content: space-between; align-items: center;
+            padding: 0 20px; border-bottom: 2px solid var(--accent-gold);
+            z-index: 100;
+        }
+
+        #timer {
+            font-size: 1.2rem; font-weight: 800; color: white;
+            background: var(--btn-orange); padding: 6px 16px; border-radius: 20px;
+        }
+
+        .main-container { display: flex; flex: 1; height: calc(100vh - 60px); overflow: hidden; }
+
+        /* Left Panel */
+        .paper-left { width: 50%; background: var(--panel-left); border-right: 1px solid #e2e8f0; overflow-y: auto; padding: 25px; }
+        .page-content { display: none; }
+        .page-content.active { display: block; }
+
+        .content-block {
+            line-height: 1.8; font-size: 0.95rem; color: #334155;
+            background: #fefce8; padding: 20px; border-radius: 8px;
+            border: 1px solid #fef08a; margin-bottom: 20px;
+        }
+
+        h2 { font-size: 1.1rem; color: #92400e; margin-top: 0; border-left: 4px solid var(--accent-gold); padding-left: 10px; margin-bottom: 15px; }
+
+        /* Right Panel FIXED */
+        .answer-right { width: 50%; display: flex; flex-direction: column; background: #fff; height: 100%; }
+        
+        .nav-sticky { padding: 10px; background: #f1f5f9; border-bottom: 1px solid #e2e8f0; flex-shrink: 0; }
+        
+        .nav-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px; }
+        
+        .nav-item {
+            background: white; border: 1px solid #cbd5e1; text-align: center;
+            padding: 6px 0; border-radius: 4px; font-size: 0.75rem; font-weight: 600;
+            cursor: pointer; transition: 0.2s;
+        }
+        .nav-item.completed { background: #dcfce7; border-color: var(--done-green); }
+        .nav-item.correct { background: var(--done-green) !important; color: white !important; }
+        .nav-item.incorrect { background: var(--wrong-red) !important; color: white !important; }
+
+        /* VÙNG CUỘN CHÍNH CHO CÂU HỎI */
+        #questionPanel { flex: 1; overflow-y: auto; padding: 20px; scroll-behavior: smooth; }
+
+        .question-page { display: none; }
+        .question-page.active { display: block; }
+
+        .q-card {
+            background: white; padding: 20px; border-radius: 10px;
+            margin-bottom: 20px; border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .q-title { font-weight: 700; margin-bottom: 15px; display: block; line-height: 1.4; }
+        .option {
+            display: flex; align-items: center; padding: 12px; border: 1px solid #f1f5f9;
+            border-radius: 8px; margin-bottom: 8px; cursor: pointer; transition: 0.2s;
+        }
+        .option:hover { background: #fefce8; border-color: var(--accent-gold); }
+        .option input { margin-right: 12px; width: 18px; height: 18px; cursor: pointer; }
+
+        .footer-nav {
+            padding: 15px 20px; background: white; border-top: 1px solid #e2e8f0;
+            display: flex; justify-content: space-between; align-items: center; flex-shrink: 0;
+        }
+
+        .btn { padding: 10px 24px; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; }
+        .btn-prev { background: #e2e8f0; color: #475569; }
+        .btn-next { background: var(--btn-orange); color: white; }
+        .btn-submit { background: #059669; color: white; display: none; }
+        .btn-disabled { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
+
+        #scoreModal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); display: none; justify-content: center;
+            align-items: center; z-index: 1000;
+        }
+        .modal-content {
+            background: white; padding: 30px; border-radius: 15px; text-align: center; max-width: 400px; width: 90%;
+        }
+    </style>
+</head>
+<body>
+
+<div id="scoreModal">
+    <div class="modal-content">
+        <h2 style="border:none;">KẾT QUẢ BÀI THI</h2>
+        <div id="correctCount" style="font-weight:600; margin-bottom:10px;">Đúng: 0 / 40 câu</div>
+        <div id="totalScore" style="font-size:3rem; font-weight:800; color:var(--btn-orange); margin-bottom:10px;">0.0</div>
+        <button class="btn btn-next" onclick="closeModal()">XEM LẠI ĐÁP ÁN</button>
+    </div>
+</div>
+
+<header>
+    <div style="font-weight: 800;">TIẾNG ANH - TEST 1</div>
+    <div id="timer">50:00</div>
+    <div class="header-right">
+    <span id="timerDisplay">50:00</span>
+    <button onclick="confirmExit()" style="margin-left:15px; background:#ef4444; color:white; border:none; padding:8px 15px; border-radius:8px; cursor:pointer; font-weight:bold;">Thoát</button>
+</div>
+    
+</header>
+
+<div class="main-container">
+    <div class="paper-left" id="leftPanel">
+        <div id="left-p1" class="page-content active">
+            <h2>Bài 1: Sắp xếp câu (1-5)</h2>
+            <div class="content-block">
+                <p><i>Mark the letter A, B, C, or D on your answer sheet to indicate the best arrangement of utterances or sentences to make a meaningful exchange or text.</i></p>
+
+                <div class="question-item">
+                    <strong>Question 1.</strong>
+                    <ul style="background: #f4f4f4; padding: 10px; border-radius: 5px; list-style: none; margin: 10px 0;">
+                        <li>a. Paul: Don't worry. I'll send you the notes after class.</li>
+                        <li>b. Sarah: Thank you! That would be great.</li>
+                        <li>c. Sarah: I'm sorry I missed today's lesson. Could you help me with the notes?</li>
+                    </ul>
+                </div>
+
+                <div class="question-item">
+                    <strong>Question 2.</strong>
+                    <ul style="background: #f4f4f4; padding: 10px; border-radius: 5px; list-style: none; margin: 10px 0;">
+                        <li>a. Lan: That's a good idea. I've been trying to eat more vegetables and cut down on sugar lately.</li>
+                        <li>b. Lan: You seem much more energetic these days. Have you changed your routine?</li>
+                        <li>c. Minh: Exactly. Regular exercise and a balanced diet really make a difference.</li>
+                        <li>d. Minh: Yes, I've started going to the gym three times a week and sleeping earlier.</li>
+                        <li>e. Lan: I totally agree. Staying healthy requires both discipline and consistency.</li>
+                    </ul>
+                </div>
+
+                <div class="question-item">
+                    <strong>Question 3. Dear Parents,</strong>
+                    <ul style="background: #f4f4f4; padding: 10px; border-radius: 5px; list-style: none; margin: 10px 0;">
+                        <li>a. Should you have any questions regarding the revised fee structure, please contact the school office for further clarification.</li>
+                        <li>b. The updated tuition rates will take effect from the beginning of the next academic term in January.</li>
+                        <li>c. We understand that this adjustment may require careful consideration, and we appreciate your continued support.</li>
+                        <li>d. Due to rising operational costs and improvements in educational facilities, the school will be implementing a revised tuition policy.</li>
+                        <li>e. We are writing to inform you of an important update concerning the school's tuition fees.</li>
+                    </ul>
+                </div>
+
+                <div class="question-item">
+                    <strong>Question 4.</strong>
+                    <ul style="background: #f4f4f4; padding: 10px; border-radius: 5px; list-style: none; margin: 10px 0;">
+                        <li>a. In the end, I came to see that leaving my comfort zone had been the most valuable part of the experience.</li>
+                        <li>b. These challenges became clear when navigating unfamiliar streets, sampling local dishes and dealing with a different dialect proved more demanding than I had anticipated.</li>
+                        <li>c. Having to handle everything alone, without the support of friends or family, left me feeling slightly uneasy.</li>
+                        <li>d. In retrospect, the journey not only strengthened my independence but also made me more confident in unfamiliar situations.</li>
+                        <li>e. During the summer holiday, I chose to travel alone to a small coastal town, expecting nothing more than a peaceful break.</li>
+                    </ul>
+                </div>
+
+                <div class="question-item">
+                    <strong>Question 5.</strong>
+                    <ul style="background: #f4f4f4; padding: 10px; border-radius: 5px; list-style: none; margin: 10px 0;">
+                        <li>a. Over the past few years, the organisation has struggled with communication gaps and declining employee morale.</li>
+                        <li>b. To enhance collaboration, the company introduced regular team-building workshops and cross-departmental projects.</li>
+                        <li>c. As a result, overall productivity improved, and employees reported higher levels of job satisfaction.</li>
+                        <li>d. These initiatives encouraged staff members to share ideas more openly and develop stronger professional relationships.</li>
+                        <li>e. Recognising these challenges, senior managers decided to implement a comprehensive strategy to strengthen teamwork across the company.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="left-p2" class="page-content">
+            <h2>Bài 2 & 3: Airport & Usability</h2>
+            <div class="content-block">
+                
+                <div class="section" style="margin-bottom: 30px;">
+                    <h3 style="text-align: center;">Airport Delays and Cancellations: What Travellers Should Know</h3>
+                    <div style="background: #f4f4f4; padding: 15px; border-radius: 5px; line-height: 1.8; text-align: justify;">
+                        Flight disruptions are becoming more common in the United States. Weather conditions, staffing shortages and technical problems can <strong>(6) _______</strong> significant delays or cancellations. Passengers are advised to check airline updates regularly and stay informed about any schedule <strong>(7) _______</strong>. 
+                        <br><br>
+                        Travellers should arrive early at the airport <strong>(8) _______</strong> unexpected security procedures may extend waiting times. Airlines are responsible for offering assistance under a <strong>(9) _______</strong> designed to protect affected passengers.
+                        <br><br>
+                        To reduce inconvenience:
+                        <ul style="list-style-type: disc; padding-left: 25px; margin-top: 5px;">
+                            <li>Keep essential items in a carry-on bag.</li>
+                            <li>Contact airline staff to <strong>(10) _______</strong> a compensation claim if your flight is cancelled for reasons within the airline's control.</li>
+                            <li>Check the <strong>(11) _______</strong> of flights cancelled on your route before making alternative travel plans.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="section" style="margin-top: 20px;">
+                    <p><i>Read the following passage:</i></p>
+                    
+                    <div style="background: #f9f9f9; padding: 15px; border-radius: 5px; line-height: 1.6; text-align: justify;">
+                        <p>As smartphones increasingly dominate online activity, improving mobile usability has become a strategic priority for digital designers. Compared with desktop interfaces, mobile environments present <u><strong>constraints</strong></u> due to limited screen space and touch-based interaction. These conditions require layouts that minimise distraction, highlight essential functions and help users complete tasks efficiently without excessive cognitive effort.</p>
+
+                        <p>A common problem in mobile interface design is visual clutter. When too many buttons, images or text blocks compete for attention, users may struggle to navigate effectively or interpret information accurately. Establishing a clear visual hierarchy, maintaining consistent design patterns and ensuring readable typography allow users to process content more smoothly. Removing <u><strong>redundant</strong></u> elements and simplifying structures can significantly enhance clarity while preserving functional balance and interface consistency.</p>
+
+                        <p>Effective navigation is essential for maintaining usability across mobile platforms. Since small screens cannot accommodate complex menu systems, designers must adopt simplified and logically organised structures. Features such as compact icons, bottom navigation bars and gesture-based commands are widely used to facilitate quicker interaction. However, these solutions must be carefully designed, as poorly labelled or hidden functions may confuse users and reduce overall satisfaction.</p>
+
+                        <p>Performance and responsiveness also shape user experience. Mobile users often access information in short sessions and expect immediate results. When a page loads slowly or relies heavily on visual effects, users may abandon <u><strong>it</strong></u> more quickly, weakening long-term engagement. Technical optimisation, including image compression, efficient coding and adaptive design, supports smoother performance across devices and varying network conditions.</p>
+
+                        <p>Finally, user testing remains crucial in mobile design. By observing real usage patterns, designers can identify obstacles that theoretical assumptions overlook. They can then adjust layouts and refine navigation flows to align better with user expectations. <u><strong>In a competitive digital marketplace, usability functions not merely as an enhancement but as a fundamental requirement for sustained growth.</strong></u></p>
+                    </div>
+                    <p style="font-size: 0.9em; color: #666; margin-top: 5px;"><i>(Adapted from https://consumersearch.com)</i></p>
+                </div>
+            </div>
+        </div>
+        <div id="left-p3" class="page-content">
+            <h2>Bài 4: Science Festival</h2>
+            <div class="content-block">
+                <p><i>Read the following advertisement and mark the letter A, B, C, or D on your answer sheet to indicate the option that best fits each of the numbered blanks from 20 to 25.</i></p>
+                
+                <div style="background: #f4f4f4; padding: 15px; border-radius: 5px; line-height: 1.8; text-align: justify;">
+                    <h3 style="text-align: center; margin-top: 0;">✎ Edinburgh Science Festival</h3>
+                    <p>The Edinburgh Science Festival is an annual event <strong>(20) _______</strong> celebrates scientific discovery and innovation. Held each spring, the festival offers numerous exhibitions, workshops and interactive activities designed to <strong>(21) _______</strong> interest among people of all ages.</p>
+
+                    <p>Visitors are encouraged to take part in hands-on experiments and discussions <strong>(22) _______</strong> by scientists and researchers. Although participants may have little scientific background, the activities are designed to be accessible and engaging.</p>
+
+                    <p>The festival also highlights the importance of scientific <strong>(23) _______</strong> in modern society, especially in addressing global challenges.</p>
+
+                    <p>Many events rely on collaboration between universities, schools and research organisations. <strong>(24) _______</strong> the festival to receive greater support from schools and local communities, it would have an even wider impact. Some schools already organise regular science-related activities for young people, and <strong>(25) _______</strong> schools may follow if more support is available.</p>
+                </div>
+                <p style="font-size: 0.9em; color: #666; margin-top: 5px;"><i>(Adapted from https://www.earthday.org)</i></p>
+            </div>
+        </div>
+       <div id="left-p4" class="page-content">
+            <h2>Bài 5: Brownwashing</h2>
+            <div class="content-block">
+                <p><i>Read the following passage and mark the letter A, B, C or D on your answer sheet to indicate the option that best fits each of the numbered blanks from 26 to 30.</i></p>
+                
+                <div style="background: #f9f9f9; padding: 15px; border-radius: 5px; line-height: 1.6; text-align: justify;">
+                    While greenwashing has received significant public attention, brownwashing remains less widely recognised. It occurs when companies intentionally minimise or obscure their genuine environmental progress in public communication. <strong>(26) _______</strong>. As a result, firms may appear less environmentally responsible than they actually are.
+                    
+                    <br><br>
+                    
+                    One reason for this behaviour is the increasing pressure placed on companies to meet ambitious sustainability targets. <strong>(27) _______</strong>. In such situations, organisations may prefer to avoid strong claims altogether rather than draw attention to commitments they may struggle to fulfil. This cautious approach can be particularly common in highly competitive industries. However, brownwashing can also create unintended consequences, <strong>(28) _______</strong>. When companies fail to communicate their achievements clearly, stakeholders may struggle to identify which firms are genuinely making progress. Another concern is that inconsistent communication practices make comparison difficult. <strong>(29) _______</strong>, those that communicate more clearly may gain an advantage, regardless of their actual environmental performance. To address these challenges, experts suggest that improving both transparency and consistency is essential. The key issue is <strong>(30) _______</strong>.
+                </div>
+                <p style="font-size: 0.9em; color: #666; margin-top: 5px;"><i>(Adapted from https://news.umich.edu)</i></p>
+            </div>
+        </div>
+        <div id="left-p5" class="page-content">
+            <h2>Bài 6: Global Ocean Treaty</h2>
+            <div class="content-block">
+                <p><i>Read the following passage and mark the letter A, B, C or D on your answer sheet to indicate the best answer to each of the following questions from 31 to 40.</i></p>
+                
+                <div style="background: #f4f4f4; padding: 15px; border-radius: 5px; line-height: 1.8; text-align: justify;">
+                    <p>For more than fifteen years, environmental organisations, scientists and Indigenous communities campaigned for stronger protection of the High Seas – the vast areas of ocean beyond national jurisdiction. These waters, covering nearly half of the planet, had long remained largely unregulated and vulnerable to intensive resource exploitation. In early 2026, <u>their</u> efforts <u><strong>culminated</strong></u> in the entry into force of the Global Ocean Treaty, creating a new legal framework for international marine governance.</p>
+
+                    <p>Before the Treaty, less than one percent of the High Seas was fully or highly protected. <u>Industrial fishing fleets</u> operated with minimal restrictions, and proposals for deep-sea mining raised concerns about irreversible ecological damage and long-term habitat degradation. <strong>[I]</strong> By establishing a formal process to designate marine protected areas, the Treaty provides governments with tools to <u>conserve</u> biodiversity on a scale not previously possible in international waters.</p>
+
+                    <p>Supporters argue that protecting the High Seas is essential not only for marine life but also for <u>climate</u> stability. Oceans absorb vast amounts of carbon dioxide and regulate global temperatures. Moreover, billions of people depend on healthy marine ecosystems for food security and economic livelihoods. <u><strong>In this context, ocean conservation is increasingly viewed as central to sustainable development rather than a purely environmental objective.</strong></u></p>
+
+                    <p>Nevertheless, adoption of the Treaty did not occur without resistance. <strong>[II]</strong> Some governments were initially reluctant to accept binding obligations that might limit industrial expansion. Negotiations required compromise, and implementation will depend on continued political will and institutional coordination. Under the agreement, proposals for protected areas must be based on scientific evidence and involve consultation with affected communities, ensuring legitimacy and accountability.</p>
+
+                    <p>World leaders have committed to protecting 30 percent of the world's oceans by 2030 – the “30x30” goal. <strong>[III]</strong> Achieving this target will demand consistent monitoring, transparent reporting and meaningful enforcement. Past environmental agreements demonstrate that ambitious pledges alone do not automatically produce measurable results. <strong>[IV]</strong> The Global Ocean Treaty therefore represents both a diplomatic achievement and a test of global commitment. Its ultimate impact will depend on whether governments transform negotiated promises into sustained protection for marine ecosystems.</p>
+                </div>
+                <p style="font-size: 0.9em; color: #666; margin-top: 5px;"><i>(Adapted from https://www.greenpeace.org.uk)</i></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="answer-right">
+        <div class="nav-sticky">
+            <div class="nav-grid">
+                <script>
+                    for(let i=1; i<=40; i++) document.write(`<div class="nav-item" id="nav-${i}" onclick="jumpToQuestion(${i})">${i}</div>`);
+                </script>
+            </div>
+        </div>
+
+        <div id="questionPanel">
+            <div id="right-p1" class="question-page active">
+                <div class="q-card" id="q1">
+                    <span class="q-title">Question 1: Mark the letter A, B, C or D to indicate the best arrangement.</span>
+                <label class="option"><input type="radio" name="q1" value="A" onchange="mark(1)"> A. b - a - c</label>
+                <label class="option"><input type="radio" name="q1" value="B" onchange="mark(1)"> B. c - a - b</label>
+                <label class="option"><input type="radio" name="q1" value="C" onchange="mark(1)"> C. c - b - a</label>
+                <label class="option"><input type="radio" name="q1" value="D" onchange="mark(1)"> D. b - c - a</label>
+            </div>
+
+            <div class="q-card" id="q2">
+                <span class="q-title">Question 2: Mark the letter A, B, C or D to indicate the best arrangement.</span>
+                <label class="option"><input type="radio" name="q2" value="A" onchange="mark(2)"> A. b - a - d - c - e</label>
+                <label class="option"><input type="radio" name="q2" value="B" onchange="mark(2)"> B. d - b - a - e - c</label>
+                <label class="option"><input type="radio" name="q2" value="C" onchange="mark(2)"> C. e - b - a - d - c</label>
+                <label class="option"><input type="radio" name="q2" value="D" onchange="mark(2)"> D. b - d - a - c - e</label>
+            </div>
+
+            <div class="q-card" id="q3">
+                <span class="q-title">Question 3: Mark the letter A, B, C or D to indicate the best arrangement.</span>
+                <label class="option"><input type="radio" name="q3" value="A" onchange="mark(3)"> A. d - b - e - a - c</label>
+                <label class="option"><input type="radio" name="q3" value="B" onchange="mark(3)"> B. e - d - b - a - c</label>
+                <label class="option"><input type="radio" name="q3" value="C" onchange="mark(3)"> C. d - e - b - c - a</label>
+                <label class="option"><input type="radio" name="q3" value="D" onchange="mark(3)"> D. e - b - a - d - c</label>
+            </div>
+
+            <div class="q-card" id="q4">
+                <span class="q-title">Question 4: Mark the letter A, B, C or D to indicate the best arrangement.</span>
+                <label class="option"><input type="radio" name="q4" value="A" onchange="mark(4)"> A. e - b - c - a - d</label>
+                <label class="option"><input type="radio" name="q4" value="B" onchange="mark(4)"> B. b - c - e - a - d</label>
+                <label class="option"><input type="radio" name="q4" value="C" onchange="mark(4)"> C. b - e - c - d - a</label>
+                <label class="option"><input type="radio" name="q4" value="D" onchange="mark(4)"> D. e - c - b - a - d</label>
+            </div>
+
+            <div class="q-card" id="q5">
+                <span class="q-title">Question 5: Mark the letter A, B, C or D to indicate the best arrangement.</span>
+                <label class="option"><input type="radio" name="q5" value="A" onchange="mark(5)"> A. e - b - a - c - d</label>
+                <label class="option"><input type="radio" name="q5" value="B" onchange="mark(5)"> B. a - b - e - d - c</label>
+                <label class="option"><input type="radio" name="q5" value="C" onchange="mark(5)"> C. e - a - b - c - d</label>
+                <label class="option"><input type="radio" name="q5" value="D" onchange="mark(5)"> D. a - e - b - d - c</label>
+            </div>
+        </div>
+
+        <div id="right-p2" class="question-page">
+            <div class="q-card" id="q6">
+                <span class="q-title">Question 6: Mark the letter A, B, C or D to indicate the option that best fits blank (6).</span>
+                <label class="option"><input type="radio" name="q6" value="A" onchange="mark(6)"> A. give rise to</label>
+                <label class="option"><input type="radio" name="q6" value="B" onchange="mark(6)"> B. give up on</label>
+                <label class="option"><input type="radio" name="q6" value="C" onchange="mark(6)"> C. give way to</label>
+                <label class="option"><input type="radio" name="q6" value="D" onchange="mark(6)"> D. result from</label>
+            </div>
+
+            <div class="q-card" id="q7">
+                <span class="q-title">Question 7: Mark the letter A, B, C or D to indicate the option that best fits blank (7).</span>
+                <label class="option"><input type="radio" name="q7" value="A" onchange="mark(7)"> A. settlements</label>
+                <label class="option"><input type="radio" name="q7" value="B" onchange="mark(7)"> B. enclosures</label>
+                <label class="option"><input type="radio" name="q7" value="C" onchange="mark(7)"> C. adjustments</label>
+                <label class="option"><input type="radio" name="q7" value="D" onchange="mark(7)"> D. possessions</label>
+            </div>
+
+            <div class="q-card" id="q8">
+                <span class="q-title">Question 8: Mark the letter A, B, C or D to indicate the option that best fits blank (8).</span>
+                <label class="option"><input type="radio" name="q8" value="A" onchange="mark(8)"> A. and</label>
+                <label class="option"><input type="radio" name="q8" value="B" onchange="mark(8)"> B. but</label>
+                <label class="option"><input type="radio" name="q8" value="C" onchange="mark(8)"> C. so</label>
+                <label class="option"><input type="radio" name="q8" value="D" onchange="mark(8)"> D. because</label>
+            </div>
+
+            <div class="q-card" id="q9">
+                <span class="q-title">Question 9: Mark the letter A, B, C or D to indicate the option that best fits blank (9).</span>
+                <label class="option"><input type="radio" name="q9" value="A" onchange="mark(9)"> A. passenger assistance policy</label>
+                <label class="option"><input type="radio" name="q9" value="B" onchange="mark(9)"> B. assistance passenger policy</label>
+                <label class="option"><input type="radio" name="q9" value="C" onchange="mark(9)"> C. passenger policy assistance</label>
+                <label class="option"><input type="radio" name="q9" value="D" onchange="mark(9)"> D. policy passenger assistance</label>
+            </div>
+
+            <div class="q-card" id="q10">
+                <span class="q-title">Question 10: Mark the letter A, B, C or D to indicate the option that best fits blank (10).</span>
+                <label class="option"><input type="radio" name="q10" value="A" onchange="mark(10)"> A. postpone</label>
+                <label class="option"><input type="radio" name="q10" value="B" onchange="mark(10)"> B. replace</label>
+                <label class="option"><input type="radio" name="q10" value="C" onchange="mark(10)"> C. file</label>
+                <label class="option"><input type="radio" name="q10" value="D" onchange="mark(10)"> D. undergo</label>
+            </div>
+
+            <div class="q-card" id="q11">
+                <span class="q-title">Question 11: Mark the letter A, B, C or D to indicate the option that best fits blank (11).</span>
+                <label class="option"><input type="radio" name="q11" value="A" onchange="mark(11)"> A. number</label>
+                <label class="option"><input type="radio" name="q11" value="B" onchange="mark(11)"> B. rate</label>
+                <label class="option"><input type="radio" name="q11" value="C" onchange="mark(11)"> C. amount</label>
+                <label class="option"><input type="radio" name="q11" value="D" onchange="mark(11)"> D. level</label>
+            </div>
+
+            <div class="q-card" id="q12">
+                <span class="q-title">Question 12: Which of the following is NOT mentioned as a factor affecting mobile usability?</span>
+                <label class="option"><input type="radio" name="q12" value="A" onchange="mark(12)"> A. Hardware storage capacity</label>
+                <label class="option"><input type="radio" name="q12" value="B" onchange="mark(12)"> B. Touch-based interaction</label>
+                <label class="option"><input type="radio" name="q12" value="C" onchange="mark(12)"> C. Performance and responsiveness</label>
+                <label class="option"><input type="radio" name="q12" value="D" onchange="mark(12)"> D. Limited screen space</label>
+            </div>
+
+            <div class="q-card" id="q13">
+                <span class="q-title">Question 13: The word "constraints" in paragraph 1 can be best replaced by ______.</span>
+                <label class="option"><input type="radio" name="q13" value="A" onchange="mark(13)"> A. innovations</label>
+                <label class="option"><input type="radio" name="q13" value="B" onchange="mark(13)"> B. advantages</label>
+                <label class="option"><input type="radio" name="q13" value="C" onchange="mark(13)"> C. adjustments</label>
+                <label class="option"><input type="radio" name="q13" value="D" onchange="mark(13)"> D. limitations</label>
+            </div>
+
+            <div class="q-card" id="q14">
+                <span class="q-title">Question 14: The word "redundant" in paragraph 2 is OPPOSITE in meaning to ______.</span>
+                <label class="option"><input type="radio" name="q14" value="A" onchange="mark(14)"> A. unnecessary</label>
+                <label class="option"><input type="radio" name="q14" value="B" onchange="mark(14)"> B. excessive</label>
+                <label class="option"><input type="radio" name="q14" value="C" onchange="mark(14)"> C. innovative</label>
+                <label class="option"><input type="radio" name="q14" value="D" onchange="mark(14)"> D. essential</label>
+            </div>
+
+            <div class="q-card" id="q15">
+                <span class="q-title">Question 15: The word "it" in paragraph 4 refers to ______.</span>
+                <label class="option"><input type="radio" name="q15" value="A" onchange="mark(15)"> A. a page</label>
+                <label class="option"><input type="radio" name="q15" value="B" onchange="mark(15)"> B. a technical optimisation</label>
+                <label class="option"><input type="radio" name="q15" value="C" onchange="mark(15)"> C. a long-term engagement</label>
+                <label class="option"><input type="radio" name="q15" value="D" onchange="mark(15)"> D. a user behaviour</label>
+            </div>
+
+            <div class="q-card" id="q16">
+                <span class="q-title">Question 16: Which of the following best paraphrases the underlined sentence in paragraph 5?</span>
+                <label class="option"><input type="radio" name="q16" value="A" onchange="mark(16)"> A. In competitive digital markets, usability has become essential rather than simply an additional improvement.</label>
+                <label class="option"><input type="radio" name="q16" value="B" onchange="mark(16)"> B. In competitive digital markets, usability can enhance platforms but is not always necessary for growth.</label>
+                <label class="option"><input type="radio" name="q16" value="C" onchange="mark(16)"> C. In competitive digital markets, platform success often results from marketing instead of improvements.</label>
+                <label class="option"><input type="radio" name="q16" value="D" onchange="mark(16)"> D. In competitive digital markets, sustained growth depends mainly on innovative visual design strategies.</label>
+            </div>
+
+            <div class="q-card" id="q17">
+                <span class="q-title">Question 17: Which of the following is TRUE according to the passage?</span>
+                <label class="option"><input type="radio" name="q17" value="A" onchange="mark(17)"> A. User testing guarantees error-free interface design.</label>
+                <label class="option"><input type="radio" name="q17" value="B" onchange="mark(17)"> B. Hidden or unclear navigation elements may decrease user satisfaction.</label>
+                <label class="option"><input type="radio" name="q17" value="C" onchange="mark(17)"> C. Visual effects always strengthen long-term engagement.</label>
+                <label class="option"><input type="radio" name="q17" value="D" onchange="mark(17)"> D. Complex menu systems are suitable for small mobile screens.</label>
+            </div>
+
+            <div class="q-card" id="q18">
+                <span class="q-title">Question 18: Which paragraph discusses the importance of reducing unnecessary design elements?</span>
+                <label class="option"><input type="radio" name="q18" value="A" onchange="mark(18)"> A. Paragraph 3</label>
+                <label class="option"><input type="radio" name="q18" value="B" onchange="mark(18)"> B. Paragraph 4</label>
+                <label class="option"><input type="radio" name="q18" value="C" onchange="mark(18)"> C. Paragraph 2</label>
+                <label class="option"><input type="radio" name="q18" value="D" onchange="mark(18)"> D. Paragraph 1</label>
+            </div>
+
+            <div class="q-card" id="q19">
+                <span class="q-title">Question 19: Which paragraph refers to technical strategies for improving system performance?</span>
+                <label class="option"><input type="radio" name="q19" value="A" onchange="mark(19)"> A. Paragraph 2</label>
+                <label class="option"><input type="radio" name="q19" value="B" onchange="mark(19)"> B. Paragraph 5</label>
+                <label class="option"><input type="radio" name="q19" value="C" onchange="mark(19)"> C. Paragraph 4</label>
+                <label class="option"><input type="radio" name="q19" value="D" onchange="mark(19)"> D. Paragraph 3</label>
+            </div>
+        </div>
+
+            <div id="right-p3" class="question-page">
+            <div class="q-card" id="q20">
+                <span class="q-title">Question 20: Mark the letter A, B, C or D to indicate the option that best fits blank (20).</span>
+                <label class="option"><input type="radio" name="q20" value="A" onchange="mark(20)"> A. whose</label>
+                <label class="option"><input type="radio" name="q20" value="B" onchange="mark(20)"> B. who</label>
+                <label class="option"><input type="radio" name="q20" value="C" onchange="mark(20)"> C. which</label>
+                <label class="option"><input type="radio" name="q20" value="D" onchange="mark(20)"> D. whom</label>
+            </div>
+            <div class="q-card" id="q21">
+                <span class="q-title">Question 21: Mark the letter A, B, C or D to indicate the option that best fits blank (21).</span>
+                <label class="option"><input type="radio" name="q21" value="A" onchange="mark(21)"> A. reduce</label>
+                <label class="option"><input type="radio" name="q21" value="B" onchange="mark(21)"> B. ignore</label>
+                <label class="option"><input type="radio" name="q21" value="C" onchange="mark(21)"> C. create</label>
+                <label class="option"><input type="radio" name="q21" value="D" onchange="mark(21)"> D. cancel</label>
+            </div>
+            <div class="q-card" id="q22">
+                <span class="q-title">Question 22: Mark the letter A, B, C or D to indicate the option that best fits blank (22).</span>
+                <label class="option"><input type="radio" name="q22" value="A" onchange="mark(22)"> A. led</label>
+                <label class="option"><input type="radio" name="q22" value="B" onchange="mark(22)"> B. lead</label>
+                <label class="option"><input type="radio" name="q22" value="C" onchange="mark(22)"> C. are led</label>
+                <label class="option"><input type="radio" name="q22" value="D" onchange="mark(22)"> D. leading</label>
+            </div>
+            <div class="q-card" id="q23">
+                <span class="q-title">Question 23: Mark the letter A, B, C or D to indicate the option that best fits blank (23).</span>
+                <label class="option"><input type="radio" name="q23" value="A" onchange="mark(23)"> A. literate</label>
+                <label class="option"><input type="radio" name="q23" value="B" onchange="mark(23)"> B. illiteracy</label>
+                <label class="option"><input type="radio" name="q23" value="C" onchange="mark(23)"> C. literately</label>
+                <label class="option"><input type="radio" name="q23" value="D" onchange="mark(23)"> D. literacy</label>
+            </div>
+            <div class="q-card" id="q24">
+                <span class="q-title">Question 24: Mark the letter A, B, C or D to indicate the option that best fits blank (24).</span>
+                <label class="option"><input type="radio" name="q24" value="A" onchange="mark(24)"> A. Unless</label>
+                <label class="option"><input type="radio" name="q24" value="B" onchange="mark(24)"> B. Should</label>
+                <label class="option"><input type="radio" name="q24" value="C" onchange="mark(24)"> C. Had</label>
+                <label class="option"><input type="radio" name="q24" value="D" onchange="mark(24)"> D. Were</label>
+            </div>
+            <div class="q-card" id="q25">
+                <span class="q-title">Question 25: Mark the letter A, B, C or D to indicate the option that best fits blank (25).</span>
+                <label class="option"><input type="radio" name="q25" value="A" onchange="mark(25)"> A. another</label>
+                <label class="option"><input type="radio" name="q25" value="B" onchange="mark(25)"> B. others</label>
+                <label class="option"><input type="radio" name="q25" value="C" onchange="mark(25)"> C. other</label>
+                <label class="option"><input type="radio" name="q25" value="D" onchange="mark(25)"> D. the other</label>
+            </div>
+        </div>
+
+        <div id="right-p4" class="question-page">
+            <div class="q-card" id="q26">
+                <span class="q-title">Question 26: Mark the letter A, B, C or D to indicate the best option to fit blank (26).</span>
+                <label class="option"><input type="radio" name="q26" value="A" onchange="mark(26)"> A. This may seem counterintuitive, as businesses are generally expected to highlight their achievements</label>
+                <label class="option"><input type="radio" name="q26" value="B" onchange="mark(26)"> B. This is often driven by companies' desire to improve their image through environmental communication</label>
+                <label class="option"><input type="radio" name="q26" value="C" onchange="mark(26)"> C. In addition, sustainability reporting has become an important tool for corporate communication</label>
+                <label class="option"><input type="radio" name="q26" value="D" onchange="mark(26)"> D. For this reason, many firms attempt to expand their environmental campaigns to reach wider audiences</label>
+            </div>
+            <div class="q-card" id="q27">
+                <span class="q-title">Question 27: Mark the letter A, B, C or D to indicate the best option to fit blank (27).</span>
+                <label class="option"><input type="radio" name="q27" value="A" onchange="mark(27)"> A. In many cases, companies that fail to live up to these expectations may face criticism and reputational damage</label>
+                <label class="option"><input type="radio" name="q27" value="B" onchange="mark(27)"> B. As a result, companies invest more resources in promoting their environmental achievements to attract support</label>
+                <label class="option"><input type="radio" name="q27" value="C" onchange="mark(27)"> C. For example, some organisations prioritise internal improvements before sharing their results publicly</label>
+                <label class="option"><input type="radio" name="q27" value="D" onchange="mark(27)"> D. In addition, sustainability reporting helps firms communicate their long-term strategies more clearly to investors</label>
+            </div>
+            <div class="q-card" id="q28">
+                <span class="q-title">Question 28: Mark the letter A, B, C or D to indicate the best option to fit blank (28).</span>
+                <label class="option"><input type="radio" name="q28" value="A" onchange="mark(28)"> A. leaving responsible firms less recognised for their real environmental efforts</label>
+                <label class="option"><input type="radio" name="q28" value="B" onchange="mark(28)"> B. reflecting differences in standards across sectors and reporting systems</label>
+                <label class="option"><input type="radio" name="q28" value="C" onchange="mark(28)"> C. reinforcing the role of sustainability reporting in corporate communication</label>
+                <label class="option"><input type="radio" name="q28" value="D" onchange="mark(28)"> D. making sustainability reporting less common in competitive industries</label>
+            </div>
+            <div class="q-card" id="q29">
+                <span class="q-title">Question 29: Mark the letter A, B, C or D to indicate the best option to fit blank (29).</span>
+                <label class="option"><input type="radio" name="q29" value="A" onchange="mark(29)"> A. Since corporate communication strategies play an important role in shaping public perception</label>
+                <label class="option"><input type="radio" name="q29" value="B" onchange="mark(29)"> B. When companies adopt different ways of presenting their environmental results in reports</label>
+                <label class="option"><input type="radio" name="q29" value="C" onchange="mark(29)"> C. Because environmental reports are often used to support broader corporate messaging</label>
+                <label class="option"><input type="radio" name="q29" value="D" onchange="mark(29)"> D. Although many organisations aim to improve transparency in sustainability communication</label>
+            </div>
+            <div class="q-card" id="q30">
+                <span class="q-title">Question 30: Mark the letter A, B, C or D to indicate the best option to fit blank (30).</span>
+                <label class="option"><input type="radio" name="q30" value="A" onchange="mark(30)"> A. whether companies are communicating accurately or creating misleading impressions selectively</label>
+                <label class="option"><input type="radio" name="q30" value="B" onchange="mark(30)"> B. the extent to which environmental policies influence business decisions in competitive markets</label>
+                <label class="option"><input type="radio" name="q30" value="C" onchange="mark(30)"> C. how companies can strengthen their reputation through clearer environmental communication</label>
+                <label class="option"><input type="radio" name="q30" value="D" onchange="mark(30)"> D. why sustainability reporting has become increasingly important in modern corporate practices</label>
+            </div>
+        </div>
+
+            <!-- Questions BÀI 6 -->
+            <div id="right-p5" class="question-page">
+                <div class="q-card" id="q31">
+                    <span class="q-title">Question 31: According to paragraph 1, the coming into force of the Global Ocean Treaty can best be seen as the result of ______</span>
+                    <label class="option"><input type="radio" name="q31" value="A" onchange="mark(31)"> A. economic incentives generated by expanding marine industries worldwide</label>
+                    <label class="option"><input type="radio" name="q31" value="B" onchange="mark(31)"> B. a sudden rise in international disputes over ocean resource exploitation</label>
+                    <label class="option"><input type="radio" name="q31" value="C" onchange="mark(31)"> C. a rapid shift in government policy triggered by recent scientific discoveries</label>
+                    <label class="option"><input type="radio" name="q31" value="D" onchange="mark(31)"> D. prolonged and coordinated pressure from environmental and scientific advocates</label>
+                </div>
+                <div class="q-card" id="q32">
+                    <span class="q-title">Question 32: Which of the following is NOT mentioned as a reason for protecting the High Seas?</span>
+                    <label class="option"><input type="radio" name="q32" value="A" onchange="mark(32)"> A. Maintaining planetary climate stability</label>
+                    <label class="option"><input type="radio" name="q32" value="B" onchange="mark(32)"> B. Supporting coastal economic livelihoods</label>
+                    <label class="option"><input type="radio" name="q32" value="C" onchange="mark(32)"> C. Preserving global marine biodiversity</label>
+                    <label class="option"><input type="radio" name="q32" value="D" onchange="mark(32)"> D. Expanding international trade networks</label>
+                </div>
+                <div class="q-card" id="q33">
+                    <span class="q-title">Question 33: The word "their" in paragraph 1 refers to ______.</span>
+                    <label class="option"><input type="radio" name="q33" value="A" onchange="mark(33)"> A. environmental groups, scientists and Indigenous communities</label>
+                    <label class="option"><input type="radio" name="q33" value="B" onchange="mark(33)"> B. environmental advocacy organisations</label>
+                    <label class="option"><input type="radio" name="q33" value="C" onchange="mark(33)"> C. national governments in treaty negotiations</label>
+                    <label class="option"><input type="radio" name="q33" value="D" onchange="mark(33)"> D. scientific research institutions</label>
+                </div>
+                <div class="q-card" id="q34">
+                    <span class="q-title">Question 34: The word "culminated" in paragraph 1 mostly means ______.</span>
+                    <label class="option"><input type="radio" name="q34" value="A" onchange="mark(34)"> A. accelerated</label>
+                    <label class="option"><input type="radio" name="q34" value="B" onchange="mark(34)"> B. initiated</label>
+                    <label class="option"><input type="radio" name="q34" value="C" onchange="mark(34)"> C. resulted in</label>
+                    <label class="option"><input type="radio" name="q34" value="D" onchange="mark(34)"> D. complicated</label>
+                </div>
+                <div class="q-card" id="q35">
+                    <span class="q-title">Question 35: Which of the following best summarises paragraph 2?</span>
+                    <label class="option"><input type="radio" name="q35" value="A" onchange="mark(35)"> A. Rising concern over deep-sea mining encouraged stronger international regulation of marine activities.</label>
+                    <label class="option"><input type="radio" name="q35" value="B" onchange="mark(35)"> B. Some protections in international waters existed, but they remained too limited to prevent ecological damage.</label>
+                    <label class="option"><input type="radio" name="q35" value="C" onchange="mark(35)"> C. Industrial exploitation in the High Seas revealed regulatory failings that the Treaty was designed to address.</label>
+                    <label class="option"><input type="radio" name="q35" value="D" onchange="mark(35)"> D. Weak protection and growing exploitation in the High Seas highlighted the need for the Treaty framework.</label>
+                </div>
+                <div class="q-card" id="q36">
+                    <span class="q-title">Question 36: Which of the following best paraphrases the underlined sentence in paragraph 3?</span>
+                    <label class="option"><input type="radio" name="q36" value="A" onchange="mark(36)"> A. Efforts to safeguard marine ecosystems are mainly promoted for environmental reasons, while their developmental role remains uncertain.</label>
+                    <label class="option"><input type="radio" name="q36" value="B" onchange="mark(36)"> B. The protection of marine ecosystems is increasingly discussed within sustainability debates, yet still treated chiefly as an ecological issue.</label>
+                    <label class="option"><input type="radio" name="q36" value="C" onchange="mark(36)"> C. Beyond environmental considerations, protecting the oceans is increasingly regarded as integral to long-term social and economic progress.</label>
+                    <label class="option"><input type="radio" name="q36" value="D" onchange="mark(36)"> D. Policies supporting marine protection are increasingly linked to economic development, though environmental priorities are becoming less central.</label>
+                </div>
+                <div class="q-card" id="q37">
+                    <span class="q-title">Question 37: According to paragraph 4, one challenge during negotiations was that some governments ______</span>
+                    <label class="option"><input type="radio" name="q37" value="A" onchange="mark(37)"> A. withdrew from multilateral discussions entirely</label>
+                    <label class="option"><input type="radio" name="q37" value="B" onchange="mark(37)"> B. rejected community involvement requirements</label>
+                    <label class="option"><input type="radio" name="q37" value="C" onchange="mark(37)"> C. resisted accepting legally binding obligations</label>
+                    <label class="option"><input type="radio" name="q37" value="D" onchange="mark(37)"> D. opposed formal scientific consultation processes</label>
+                </div>
+                <div class="q-card" id="q38">
+                    <span class="q-title">Question 38: It can be inferred from the passage that the Treaty's effectiveness will hinge on ______</span>
+                    <label class="option"><input type="radio" name="q38" value="A" onchange="mark(38)"> A. legal adoption automatically producing ecological recovery</label>
+                    <label class="option"><input type="radio" name="q38" value="B" onchange="mark(38)"> B. preventing economic expansion in marine industries altogether</label>
+                    <label class="option"><input type="radio" name="q38" value="C" onchange="mark(38)"> C. the 30x30 pledge guaranteeing universal compliance</label>
+                    <label class="option"><input type="radio" name="q38" value="D" onchange="mark(38)"> D. national priorities aligning with collective enforcement mechanisms</label>
+                </div>
+                <div class="q-card" id="q39">
+                    <span class="q-title">Question 39: Where in the passage does the following sentence best fit? <br> "Such hesitation illustrates the tension between environmental ambition and economic calculation."</span>
+                    <label class="option"><input type="radio" name="q39" value="A" onchange="mark(39)"> A. [II]</label>
+                    <label class="option"><input type="radio" name="q39" value="B" onchange="mark(39)"> B. [I]</label>
+                    <label class="option"><input type="radio" name="q39" value="C" onchange="mark(39)"> C. [III]</label>
+                    <label class="option"><input type="radio" name="q39" value="D" onchange="mark(39)"> D. [IV]</label>
+                </div>
+                <div class="q-card" id="q40">
+                    <span class="q-title">Question 40: Which of the following best summarises the passage?</span>
+                    <label class="option"><input type="radio" name="q40" value="A" onchange="mark(40)"> A. International marine agreements often project ambitious goals but risk remaining symbolic unless backed by rigorous enforcement and political commitment.</label>
+                    <label class="option"><input type="radio" name="q40" value="B" onchange="mark(40)"> B. Structural challenges in regulating international waters continue to undermine attempts at comprehensive ocean protection, despite diplomatic progress.</label>
+                    <label class="option"><input type="radio" name="q40" value="C" onchange="mark(40)"> C. The Treaty is a landmark achievement, yet its credibility depends on governments translating negotiated promises into sustained ecological protection.</label>
+                    <label class="option"><input type="radio" name="q40" value="D" onchange="mark(40)"> D. Efforts to conserve the High Seas reveal persistent tensions between environmental imperatives and economic expansion, complicating global governance.</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-nav">
+            <button id="btnPrev" class="btn btn-prev btn-disabled" onclick="changePage(-1)">QUAY LẠI</button>
+            <span id="pageIndicator" style="font-weight: 800;">TRANG 1 / 5</span>
+            <button id="btnNext" class="btn btn-next" onclick="changePage(1)">TRANG TIẾP</button>
+            <button id="btnSubmit" class="btn btn-submit" onclick="submitExam()">NỘP BÀI</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentP = 1;
+    const totalP = 5;
+    let isSubmitted = false;
+
+    // ĐÁP ÁN ĐÚNG (Cập nhật theo mã đề 201 từ ảnh của bạn)
+    const correctKeys = {
+        // Bài 1: Sắp xếp câu
+        q1: "B", q2: "D", q3: "B", q4: "D", q5: "D",
+
+        // Bài 2: Airport Delays (Điền từ)
+        q6: "A", q7: "C", q8: "D", q9: "A", q10: "C", q11: "B",
+
+        // Bài 3: Mobile Usability (Đọc hiểu)
+        q12: "A", q13: "D", q14: "D", q15: "A", q16: "A", q17: "B", q18: "C", q19: "C",
+
+        // Bài 4: Science Festival (Quảng cáo - Điền từ)
+        q20: "C", q21: "C", q22: "A", q23: "D", q24: "D", q25: "C",
+
+        // Bài 5: Brownwashing (Điền từ vào đoạn văn)
+        q26: "A", q27: "A", q28: "A", q29: "A", q30: "A",
+
+        // Bài 6: Global Ocean Treaty (Đọc hiểu dài)
+        q31: "D", q32: "D", q33: "A", q34: "C", q35: "A", q36: "C", q37: "C", q38: "A", q39: "A", q40: "C"
+    };
+
+    function jumpToQuestion(id) {
+        let page = 1;
+        if (id >= 6 && id <= 19) page = 2;
+        else if (id >= 20 && id <= 25) page = 3;
+        else if (id >= 26 && id <= 30) page = 4;
+        else if (id >= 31) page = 5;
+        renderPage(page);
+        setTimeout(() => {
+            const el = document.getElementById(`q${id}`);
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
+    }
+
+    function renderPage(p) {
+        currentP = p;
+        document.querySelectorAll('.page-content, .question-page').forEach(el => el.classList.remove('active'));
+        document.getElementById(`left-p${p}`).classList.add('active');
+        document.getElementById(`right-p${p}`).classList.add('active');
+        document.getElementById('pageIndicator').innerText = `TRANG ${p} / ${totalP}`;
+        document.getElementById('btnPrev').classList.toggle('btn-disabled', p === 1);
+        
+        const isLast = (p === totalP);
+        document.getElementById('btnNext').style.display = isLast ? 'none' : 'block';
+        document.getElementById('btnSubmit').style.display = isLast ? 'block' : 'none';
+        
+        document.getElementById('questionPanel').scrollTop = 0;
+    }
+
+    function changePage(step) {
+        const target = currentP + step;
+        if (target >= 1 && target <= totalP) renderPage(target);
+    }
+
+    function mark(id) {
+        if(!isSubmitted) document.getElementById(`nav-${id}`).classList.add('completed');
+    }
+
+    function submitExam() {
+        if(isSubmitted) return;
+        isSubmitted = true;
+        clearInterval(timerInterval);
+        let score = 0;
+        for (let i = 1; i <= 40; i++) {
+            const sel = document.querySelector(`input[name="q${i}"]:checked`);
+            const nav = document.getElementById(`nav-${i}`);
+            if (sel && sel.value === correctKeys[`q${i}`]) {
+                score++;
+                nav.className = 'nav-item correct';
+            } else {
+                nav.className = 'nav-item incorrect';
+            }
+        }
+        document.getElementById('correctCount').innerText = `Đúng: ${score} / 40 câu`;
+        document.getElementById('totalScore').innerText = (score * 0.25).toFixed(2);
+        document.getElementById('scoreModal').style.display = 'flex';
+        document.querySelectorAll('input[type="radio"]').forEach(i => i.disabled = true);
+    }
+
+    function closeModal() { document.getElementById('scoreModal').style.display = 'none'; }
+
+    let time = 50 * 60;
+    const timerInterval = setInterval(() => {
+        let m = Math.floor(time / 60), s = time % 60;
+        document.getElementById('timer').innerText = `${m}:${s < 10 ? '0' + s : s}`;
+        if (time-- <= 0) submitExam();
+    }, 1000);
+
+        // --- BIẾN ĐIỀU KHIỂN ---
+    let isReentering = false; // Ngăn lặp vô hạn khi đang thực hiện vào lại Fullscreen
+
+    // --- 1. HÀM VÀO CHẾ ĐỘ TOÀN MÀN HÌNH ---
+    function enterFullScreen() {
+        isReentering = true;
+        const elem = document.documentElement;
+        
+        // Hỗ trợ đa trình duyệt (Chrome, Firefox, Safari, IE)
+        const requestMethod = elem.requestFullscreen || 
+                            elem.webkitRequestFullscreen || 
+                            elem.mozRequestFullScreen || 
+                            elem.msRequestFullscreen;
+
+        if (requestMethod) {
+            requestMethod.call(elem).then(() => {
+                isReentering = false;
+            }).catch(err => {
+                console.error(`Lỗi Fullscreen: ${err.message}`);
+                isReentering = false;
+            });
+        }
+    }
+
+    // --- 2. XỬ LÝ CẢNH BÁO VÀ TỰ ĐỘNG VÀO LẠI ---
+    document.addEventListener('fullscreenchange', function() {
+        // Nếu người dùng thoát Fullscreen mà chưa nộp bài (isSubmitted là biến có sẵn trong code của bạn)
+        if (!document.fullscreenElement && !isSubmitted && !isReentering) {
+            
+            alert("⚠️ CẢNH BÁO: Bạn không được thoát chế độ toàn màn hình trong khi làm bài!\nNhấn OK để tiếp tục làm bài.");
+            
+            // Sau khi nhấn OK, tự động yêu cầu toàn màn hình trở lại
+            enterFullScreen();
+        }
+    });
+
+    // Yêu cầu Fullscreen ngay lần đầu tiên người dùng click vào trang web
+    document.addEventListener('click', function() {
+        if (!document.fullscreenElement && !isSubmitted) {
+            enterFullScreen();
+        }
+    }, { once: true });
+
+        // --- 3. HÀM XÁC NHẬN KHI MUỐN THOÁT RA TRANG TEST.HTML ---
+        function confirmExit() {
+        // Xác định nội dung thông báo dựa trên trạng thái nộp bài
+        const message = isSubmitted 
+            ? "Bạn có muốn quay lại danh sách đề thi không?" 
+            : "CẢNH BÁO: Bài làm chưa được nộp. Kết quả của bạn sẽ không được lưu nếu bạn thoát lúc này. Bạn vẫn muốn thoát?";
+        
+        if (confirm(message)) {
+            // Đường dẫn trang đích (điều chỉnh cho đúng cấu trúc thư mục của bạn)
+            const targetUrl = '../test.html';
+
+            if (document.fullscreenElement) {
+                // Thoát toàn màn hình trước
+                document.exitFullscreen()
+                    .catch(err => console.warn("Lỗi khi thoát Fullscreen:", err)) // Tránh treo script nếu có lỗi
+                    .finally(() => {
+                        window.location.href = targetUrl;
+                    });
+            } else {
+                window.location.href = targetUrl;
+            }
+        }
+    }
+
+    // --- 4. NGĂN CHẶN TẢI LẠI TRANG (F5) HOẶC ĐÓNG TAB ---
+    window.addEventListener('beforeunload', function (e) {
+        if (!isSubmitted) {
+            e.preventDefault();
+            e.returnValue = ''; // Hiển thị thông báo xác nhận mặc định của trình duyệt
+        }
+    });
+</script>
+</body>
+</html>

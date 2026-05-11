@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Danh Sách Bài Test - Game Hub</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Style bổ sung cho trang danh sách đề thi */
+    .test-container {
+        padding: 40px 20px;
+        max-width: 1200px;
+        margin: auto;
+    }
+    .test-section {
+        margin-bottom: 50px;
+    }
+    .section-title {
+        border-left: 10px solid #ff9ebb; /* Màu hồng Sanrio */
+        padding-left: 15px;
+        margin-bottom: 25px;
+        color: #555;
+        font-size: 1.8em;
+    }
+    .test-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 25px;
+    }
+    .test-card {
+        background: white;
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        border: 2px solid #f0f0f0;
+        transition: transform 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    .test-card:hover {
+        transform: translateY(-10px);
+        border-color: #ff9ebb;
+    }
+    .test-card h3 {
+        margin-top: 0;
+        color: #333;
+    }
+    .test-info {
+        font-size: 0.9em;
+        color: #777;
+        margin: 10px 0;
+    }
+    .btn-start {
+        display: inline-block;
+        background: #a2d2ff; /* Màu xanh pastel */
+        color: white;
+        padding: 10px 20px;
+        border-radius: 15px;
+        text-decoration: none;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+    .btn-start:hover {
+        background: #ffafcc;
+    }
+    /* Sticker mini trang trí */
+    .mini-sticker {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        width: 40px;
+        opacity: 0.6;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="index.html">🏠 Home</a></li>
+      <li><a href="lessons.html">📘 Lessons</a></li>
+      <li><a href="games.html">🎮 Games</a></li>
+      <li><a href="discuss.html">💬 Discuss</a></li>
+      <li><a href="status.html">📊 Status</a></li>
+      <li><a href="quizz.html">📝 Quiz</a></li>
+      <li><a href="test.html" class="active">📝 Test</a></li>
+    </ul>
+  </nav>
+
+  <div class="header-right">
+    <span id="timerDisplay">50:00</span>
+    <button onclick="confirmExit()" style="margin-left:15px; background:#ef4444; color:white; border:none; padding:8px 15px; border-radius:8px; cursor:pointer; font-weight:bold;">Thoát</button>
+</div>
+
+  <div class="test-container">
+    <h1 style="text-align: center; color: #ff9ebb; margin-bottom: 40px;">📝 Kho Đề Thi Thử</h1>
+
+    <div class="test-section">
+      <h2 class="section-title">1. Đề THPTQG</h2>
+      <div class="test-grid">
+        <div class="test-card">
+          <h3>Tiếng Anh THPTQG 2026</h3>
+          <div class="test-info">⏱ 50 phút | 📝 40 câu hỏi</div>
+          <p>Mã đề 201 - Khảo sát chất lượng.</p>
+          <a href="tests/test_1.html" class="btn-start">Làm bài ngay</a>
+        </div>
+        </div>
+    </div>
+
+    <div class="test-section">
+      <h2 class="section-title">2. IELTS Simulation</h2>
+      <div class="test-grid">
+        <div class="test-card">
+          <h3>IELTS Reading Test 1</h3>
+          <div class="test-info">⏱ 60 phút | 📝 40 câu hỏi</div>
+          <a href="#" class="btn-start">Làm bài ngay</a>
+          <img src="images/sanrio-mini.gif" class="mini-sticker">
+        </div>
+      </div>
+    </div>
+
+    <div class="test-section">
+      <h2 class="section-title">3. SAT MATH</h2>
+      <div class="test-grid">
+        <div class="test-card">
+          <h3>SAT Math Practice Vol 1</h3>
+          <div class="test-info">⏱ 80 phút | Calculator & No-Calc</div>
+          <a href="#" class="btn-start">Làm bài ngay</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="test-section">
+      <h2 class="section-title">4. SAT READING & WRITING</h2>
+      <div class="test-grid">
+        <div class="test-card">
+          <h3>SAT R&W Simulation</h3>
+          <div class="test-info">⏱ 64 phút | 54 câu hỏi</div>
+          <a href="#" class="btn-start">Làm bài ngay</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

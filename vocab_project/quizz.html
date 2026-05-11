@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Quiz Manager - Vocab Game Hub</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body{background:#fff8e7;font-family:'Inter',sans-serif;color:#333;margin:0;padding:20px;}
+    nav ul{display:flex;gap:12px;list-style:none;padding:10px 0;margin:0;}
+    nav a{text-decoration:none;color:#333;padding:6px 10px;border-radius:8px;}
+    header{text-align:center;margin-bottom:18px;}
+    .box{background:#fffef5;border-radius:12px;padding:18px;box-shadow:0 6px 18px rgba(0,0,0,0.08);max-width:1000px;margin:12px auto;}
+    .row{display:flex;gap:12px;align-items:flex-start;}
+    .col{flex:1;}
+    label{font-weight:600;display:block;margin-bottom:6px;}
+    input,textarea,button{width:100%;padding:10px;border-radius:8px;border:1px solid #ddd;font-size:14px;box-sizing:border-box;}
+    textarea{min-height:120px;resize:vertical;}
+    .quiz-list{margin-top:16px;display:flex;flex-direction:column;gap:10px;max-height:420px;overflow:auto;padding-right:6px;}
+    .quiz-item{background:#fff4b2;border-radius:10px;padding:10px;display:flex;justify-content:space-between;align-items:center;gap:10px;}
+    .muted{color:#555;font-size:13px;}
+    .btn{background:#f57c00;color:white;border:none;cursor:pointer;font-weight:700;}
+    .btn.ghost{background:transparent;border:1px solid #f57c00;color:#f57c00;}
+    @media(max-width:860px){.row{flex-direction:column}}
+  </style>
+</head>
+<body>
+<nav>
+  <ul>
+    <li><a href="index.html">🏠 Home</a></li>
+    <li><a href="lessons.html">📘 Lessons</a></li>
+    <li><a href="games.html">🎮 Games</a></li>
+    <li><a href="discuss.html">💬 Discuss</a></li>
+    <li><a href="status.html">📊 Status</a></li>
+    <li><a href="quizz.html">📝 Quiz</a></li>
+    <li><a href="test.html">📝 Test</a></li> </ul>
+</nav>
+
+<header>
+  <h1>🧾 Quiz Manager</h1>
+  <p class="muted">Upload file .txt có dòng <b>Answer:</b> để hệ thống tự hiểu đáp án và auto-chấm.</p>
+</header>
+
+<div class="box">
+  <div class="row">
+    <div class="col" style="flex:1.2">
+      <label for="quiz-name">Tên đề</label>
+      <input id="quiz-name" placeholder="VD: Unit 2 - Thinking and Learning"/>
+      <input type="file" id="file-input" accept=".txt" style="margin-top:10px"/>
+      <textarea id="paste-area" placeholder="Dán nội dung file vào đây..." style="margin-top:10px"></textarea>
+      <div style="margin-top:10px;display:flex;gap:8px;">
+        <button id="parse-save" class="btn">🖫 Lưu đề</button>
+        <button id="clear-input" class="btn ghost">Xóa</button>
+      </div>
+      <p class="muted" style="margin-top:8px;">
+        Mỗi câu có dạng:<br>
+        <code>#1 : multiple | Câu hỏi | A:\B:\C<br>Answer: A</code>
+      </p>
+    </div>
+
+    <div class="col" style="max-width:420px">
+      <label>Danh sách đề</label>
+      <div id="quizzes" class="quiz-list"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const LS_KEY="vocab_quizzes_v1";
+const fileInput=document.getElementById("file-input");
+const pasteArea=document.getElementById("paste-area");
+const quizName=document.getElementById("quiz-name");
+const quizzesDiv=document.getElementById("quizzes");
+function loadQuizzes(){const r=localStorage.getItem(LS_KEY);return r?JSON.parse(r):[];}
+function saveQuizzes(l){localStorage.setItem(LS_KEY,JSON.stringify(l));}
+function renderQuizzes(){
+  const list=loadQuizzes();quizzesDiv.innerHTML="";
+  if(!list.length){quizzesDiv.innerHTML='<div class="muted">Chưa có đề nào.</div>';return;}
+  list.forEach(q=>{
+    const d=document.createElement("div");d.className="quiz-item";
+    d.innerHTML=`<div><b>${q.name}</b><div class='muted'>${q.questions.length} câu</div></div>
+    <div><button class='btn' onclick="window.location='exam.html?quizId=${q.id}'">Làm bài</button>
+    <button class='btn ghost' onclick="delQuiz('${q.id}')">Xóa</button></div>`;
+    quizzesDiv.appendChild(d);
+  });
+}
+function delQuiz(id){
+  if(!confirm("Xóa đề này?"))return;
+  const arr=loadQuizzes().filter(x=>x.id!==id);saveQuizzes(arr);renderQuizzes();
+}
+fileInput.onchange=e=>{
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();r.onload=()=>pasteArea.value=r.result;r.readAsText(f);
+};
+document.getElementById("clear-input").onclick=()=>{pasteArea.value="";quizName.value="";fileInput.value="";};
+document.getElementById("parse-save").onclick=()=>{
+  const name=quizName.value.trim(),raw=pasteArea.value.trim();
+  if(!name||!raw){alert("Thiếu tên hoặc nội dung!");return;}
+  const qs=parseQuestions(raw);
+  const list=loadQuizzes();
+  list.unshift({id:"quiz_"+Date.now(),name,created:Date.now(),questions:qs});
+  saveQuizzes(list);renderQuizzes();alert("✅ Đã lưu đề!");pasteArea.value="";quizName.value="";
+};
+function parseQuestions(raw){
+  const lines=raw.split(/\r?\n/);
+  const qs=[];let cur=null;
+  for(let line of lines){
+    line=line.trim();if(!line)continue;
+    if(line.startsWith("#")){
+      if(cur)qs.push(cur);
+      const parts=line.split("|").map(p=>p.trim());
+      let type="essay",question="",opts=[];
+      const typeMatch=line.match(/\b(multiple|checkbox|essay)\b/i);
+      if(typeMatch)type=typeMatch[1].toLowerCase();
+      if(parts.length>=2)question=parts[1];
+      if(parts.length>=3)opts=parts[2].split(/\\|:|;/).map(s=>s.trim()).filter(Boolean);
+      cur={type,question,options:opts,answer:null};
+    }else if(line.toLowerCase().startsWith("answer:")){
+      const ans=line.replace(/answer:/i,"").trim();
+      if(cur){
+        if(cur.type==="checkbox"){
+          cur.answer=ans.split(/,|;|\\|:/).map(a=>a.trim()).filter(Boolean);
+        }else cur.answer=ans;
+      }
+    }
+  }
+  if(cur)qs.push(cur);
+  return qs;
+}
+renderQuizzes();
+</script>
+</body>
+</html>

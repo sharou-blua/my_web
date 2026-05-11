@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generate Quiz - Global Success AI</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: linear-gradient(135deg, #e0f7fa, #f3e5f5);
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      color: #4a148c;
+      margin-bottom: 10px;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      padding: 25px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    select, input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-top: 5px;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 12px;
+      font-size: 18px;
+      background-color: #7b1fa2;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #4a148c;
+    }
+
+    textarea {
+      width: 100%;
+      height: 400px;
+      margin-top: 20px;
+      padding: 15px;
+      font-size: 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      resize: vertical;
+    }
+
+    .loading {
+      text-align: center;
+      margin-top: 20px;
+      font-weight: bold;
+      color: #6a1b9a;
+    }
+  </style>
+
+<nav>
+  <ul>
+    <li><a href="index.html">🏠 Home</a></li>
+    <li><a href="lessons.html">📘 Lessons</a></li>
+    <li><a href="games.html">🎮 Games</a></li>
+    <li><a href="discuss.html">💬 Discuss</a></li>
+    <li><a href="status.html">📊 Status</a></li>
+    <li><a href="quizz.html">📝 Quiz</a></li>
+    <li><a href="test.html">📝 Test</a></li> </ul>
+</nav>
+
+</head>
+<body>
+  <div class="container">
+    <h1>🧠 Generate AI Quiz</h1>
+    <label for="grade">Select Grade:</label>
+    <select id="grade">
+      <option value="3">Grade 3</option>
+      <option value="4">Grade 4</option>
+      <option value="5">Grade 5</option>
+      <option value="6">Grade 6</option>
+      <option value="7">Grade 7</option>
+      <option value="8">Grade 8</option>
+      <option value="9">Grade 9</option>
+      <option value="10">Grade 10</option>
+      <option value="11">Grade 11</option>
+      <option value="12">Grade 12</option>
+    </select>
+
+    <label for="examType">Select Exam Type:</label>
+    <select id="examType">
+      <option value="Midterm 1">Midterm 1 (Giữa kỳ 1)</option>
+      <option value="Final 1">Final 1 (Cuối kỳ 1)</option>
+      <option value="Midterm 2">Midterm 2 (Giữa kỳ 2)</option>
+      <option value="Final 2">Final 2 (Cuối kỳ 2)</option>
+    </select>
+
+    <label for="count">Number of Questions:</label>
+    <input type="number" id="count" min="1" max="20" value="10" />
+
+    <button id="generateBtn">🚀 Generate Quiz</button>
+    <div id="loading" class="loading" style="display:none;">AI is generating your quiz... please wait ⏳</div>
+
+    <label for="output">Generated Quiz:</label>
+    <textarea id="output" readonly placeholder="Your AI-generated quiz will appear here..."></textarea>
+  </div>
+
+  <script>
+    document.getElementById("generateBtn").addEventListener("click", async () => {
+      const grade = document.getElementById("grade").value;
+      const examType = document.getElementById("examType").value;
+      const count = document.getElementById("count").value;
+      const output = document.getElementById("output");
+      const loading = document.getElementById("loading");
+
+      if (!grade || !examType || !count) {
+        alert("Please fill in all fields!");
+        return;
+      }
+
+      loading.style.display = "block";
+      output.value = "";
+
+      try {
+        const res = await fetch("https://09621520-93e1-4c48-9661-5b77f8b74f66-00-2p7ur9s2curj5.pike.replit.dev/api/generate_quiz", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ grade, examType, count }),
+});
+
+        const data = await res.json();
+        output.value = data.quiz || "⚠️ AI could not generate questions. Try again later.";
+      } catch (err) {
+        console.error(err);
+        output.value = "❌ Error connecting to AI server.";
+      } finally {
+        loading.style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>
+

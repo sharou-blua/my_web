@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Khảo thí - Vocab Game Hub</title>
+<link rel="stylesheet" href="style.css">
+<style>
+body{background:#fff8e7;font-family:'Inter',sans-serif;color:#222;margin:0;padding:20px;}
+nav ul{display:flex;gap:12px;list-style:none;padding:10px 0;margin:0;}
+.box{background:#fffef5;border-radius:12px;padding:18px;box-shadow:0 6px 18px rgba(0,0,0,0.08);}
+.question{background:#fff4b2;padding:12px;border-radius:10px;margin-bottom:12px;}
+.btn{background:#f57c00;color:#fff;border:none;padding:10px 14px;border-radius:8px;font-weight:700;cursor:pointer;}
+.timer{font-weight:700;color:#b91c1c;}
+.result{font-weight:700;margin-top:12px;}
+</style>
+</head>
+<body>
+<nav>
+  <ul>
+    <li><a href="index.html">🏠 Home</a></li>
+    <li><a href="lessons.html">📘 Lessons</a></li>
+    <li><a href="games.html">🎮 Games</a></li>
+    <li><a href="discuss.html">💬 Discuss</a></li>
+    <li><a href="status.html">📊 Status</a></li>
+    <li><a href="quizz.html">📝 Quiz</a></li>
+    <li><a href="test.html">📝 Test</a></li> </ul>
+</nav>
+<div id="setup" class="box">
+  <h2 id="quiz-title">Khảo thí</h2>
+  <label>Thời gian (phút)</label>
+  <select id="time-select"><option>5</option><option selected>10</option><option>15</option><option>30</option></select>
+  <button id="start" class="btn" style="margin-top:10px">Bắt đầu</button>
+</div>
+
+<div id="exam" class="box" style="display:none;margin-top:12px;">
+  <div style="display:flex;justify-content:space-between;align-items:center;">
+    <b id="quiz-name"></b><div class="timer" id="timer">00:00</div>
+  </div>
+  <hr>
+  <form id="form"></form>
+  <button id="submit" class="btn">Nộp bài</button>
+  <div id="result" class="result"></div>
+</div>
+
+<script>
+const LS_KEY="vocab_quizzes_v1";
+const id=new URL(location).searchParams.get("quizId");
+const quiz=JSON.parse(localStorage.getItem(LS_KEY)||"[]").find(q=>q.id===id);
+const title=document.getElementById("quiz-title"),exam=document.getElementById("exam"),
+form=document.getElementById("form"),timerEl=document.getElementById("timer"),
+result=document.getElementById("result");let t=0,iv=null;
+if(!quiz){title.textContent="Không tìm thấy đề";document.getElementById("start").disabled=true;}
+document.getElementById("quiz-name").textContent=quiz?quiz.name:"";
+document.getElementById("start").onclick=()=>{
+  document.getElementById("setup").style.display="none";exam.style.display="block";
+  const mins=parseInt(document.getElementById("time-select").value);t=mins*60;
+  iv=setInterval(()=>{t--;if(t<=0){clearInterval(iv);submit();}updateTimer();},1000);updateTimer();
+  build();
+};
+function updateTimer(){const m=String(Math.floor(t/60)).padStart(2,"0"),s=String(t%60).padStart(2,"0");timerEl.textContent=`${m}:${s}`;}
+function build(){
+  form.innerHTML="";
+  quiz.questions.forEach((q,i)=>{
+    const div=document.createElement("div");div.className="question";
+    let html=`<b>${i+1}. ${q.question}</b> <small>[${q.type}]</small><div>`;
+    if(q.type==="multiple"){
+      html+=q.options.map(o=>`<div><label><input type=radio name=q${i} value="${o}"> ${o}</label></div>`).join("");
+    }else if(q.type==="checkbox"){
+      html+=q.options.map(o=>`<div><label><input type=checkbox name=q${i} value="${o}"> ${o}</label></div>`).join("");
+    }else html+=`<textarea name=q${i} rows=3 style="width:100%"></textarea>`;
+    html+="</div>";div.innerHTML=html;form.appendChild(div);
+  });
+}
+function submit(){
+  clearInterval(iv);
+  const data=new FormData(form);
+  let correct=0,total=0;
+  quiz.questions.forEach((q,i)=>{
+    if(q.type==="essay")return;
+    total++;
+    if(q.type==="multiple"){
+      const val=data.get("q"+i);
+      if(val&&q.answer&&val.trim()===q.answer.trim())correct++;
+    }else if(q.type==="checkbox"){
+      const vals=data.getAll("q"+i);
+      if(Array.isArray(q.answer)){
+        const same=q.answer.every(a=>vals.includes(a))&&vals.every(v=>q.answer.includes(v));
+        if(same)correct++;
+      }
+    }
+  });
+  result.textContent=`🎯 Điểm: ${correct}/${total}`;
+  document.getElementById("submit").disabled=true;
+}
+document.getElementById("submit").onclick=e=>{e.preventDefault();submit();};
+</script>
+</body>
+</html>

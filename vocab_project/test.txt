@@ -1,0 +1,93 @@
+surgeon|bác sĩ phẫu thuật|15
+surgery|ca phẫu thuật|20
+resist|kháng cự|10
+resistance|sự kháng cự|15
+resistant|có tính kháng cự|20
+resistance war|kháng chiến|10
+field hospital|bệnh viện dã chiến|15
+account|sự tường thuật|20
+personal account|câu chuyện cá nhân|10
+experience|trải nghiệm|15
+enemy|kẻ thù|20
+soldier|chiến sĩ|10
+jungle|rừng nhiệt đới|15
+national hero|anh hùng dân tộc|20
+heroic|dũng cảm|10
+biological|thuộc về sinh học|15
+biology|sinh học|20
+biological parents|cha mẹ ruột|10
+cutting-edge|tiên tiến|15
+animation|hoạt hình|20
+animate|hoạt hình hóa|10
+computer-animated|hoạt hình máy tính|15
+full-length|toàn bộ thời lượng|20
+blockbuster|bom tấn|10
+pancreatic|tuyến tụy|15
+visionary|có tầm nhìn|20
+vision|tầm nhìn|10
+genius|thiên tài|15
+film industry|ngành điện ảnh|20
+theme park|công viên giải trí|10
+magical|huyền diệu|15
+magic|phép thuật|20
+character|nhân vật|10
+characterize|mô tả đặc trưng|15
+poem|bài thơ|20
+poetry|thơ ca|10
+poet|nhà thơ|15
+poetess|nữ thi sĩ|20
+poetic|thơ mộng|10
+inspiring|truyền cảm hứng|15
+inspire|truyền cảm hứng|20
+innovation|sự đổi mới|10
+innovative|mang tính đổi mới|15
+presentation|bài thuyết trình|20
+present|trình bày|10
+determination|sự quyết tâm|15
+determine|quyết định|20
+determined|quyết tâm|10
+roman empire|Đế chế La Mã|15
+defeat|đánh bại|20
+ambitious|đầy tham vọng|10
+ambition|tham vọng|15
+guitar|đàn ghita|20
+guitarist|người chơi đàn ghita|10
+surprise|sự ngạc nhiên|15
+surprising|làm ngạc nhiên|20
+surprisingly|một cách ngạc nhiên|10
+collaborate|cộng tác|15
+collaboration|sự cộng tác|20
+popular|phổ biến|10
+popularity|tính phổ biến|15
+unpopular|không phổ biến|20
+popularize|làm cho phổ biến|10
+popularly|một cách phổ biến|15
+operate|phẫu thuật|20
+operate on sb/sth|phẫu thuật cho ai|10
+operation|ca phẫu thuật|15
+operational|thuộc hoạt động|20
+devote|cống hiến|10
+devote sth to sb/sth|dành cái gì cho ai|15
+devotion|sự cống hiến|20
+devoted|tận tâm|10
+devoted to sth/sb|tận tâm với ai|15
+admire|ngưỡng mộ|20
+admire sb for sth|ngưỡng mộ ai vì điều gì|10
+respect|sự tôn trọng|15
+respect for sb/sth|tôn trọng ai|20
+give up|từ bỏ|10
+give up on sb/sth|từ bỏ ai|15
+take care of|chăm sóc|20
+drop out|bỏ học|10
+drop out of sth|bỏ học cái gì|15
+base|dựa vào|20
+base sth on sth|dựa vào cái gì|10
+famous|nổi tiếng|15
+famous for sth|nổi tiếng vì điều gì|20
+take part in|tham gia|10
+pass away|qua đời|15
+succeed|thành công|20
+succeed in sth|thành công trong việc gì|10
+success|sự thành công|15
+successful|thành công|20
+be successful in sth|thành công trong việc gì|10

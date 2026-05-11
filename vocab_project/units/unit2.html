@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lessons</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS cho phần nội dung bài học */
+        .unit-box {
+            text-align: left;
+            margin-top: 40px;
+        }
+
+        .lesson-section {
+            background: #fff3d6;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .lesson-section strong {
+            color: #ffaa00;
+        }
+
+        .toggle-btn {
+            width: 100%;
+            padding: 18px 25px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-align: left;
+            background: #ffeaa0;
+            color: #333;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .toggle-btn::after {
+            content: '+';
+            font-size: 2rem;
+            position: absolute;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s ease;
+        }
+
+        .toggle-btn[aria-expanded="true"]::after {
+            content: '-';
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        .lesson-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+            padding-top: 0;
+        }
+
+        .lesson-content.visible {
+            max-height: 5000px; /* Giá trị lớn để chứa nội dung */
+            padding-top: 25px;
+        }
+
+        .lesson-content ol, .lesson-content ul {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 20px;
+        }
+        
+        .lesson-content li {
+            padding: 15px 0;
+            border-bottom: 1px solid #ffe0a3;
+        }
+
+        .lesson-content li:last-child {
+            border-bottom: none;
+        }
+
+        .lesson-content li strong {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+
+        .lesson-content li .phonetics {
+            color: #888;
+            font-style: italic;
+            font-size: 0.95rem;
+        }
+
+        .lesson-content li .meaning {
+            font-weight: 500;
+            color: #555;
+            margin: 5px 0;
+        }
+
+        .lesson-content li .example-box {
+            background: #fff8e7;
+            padding: 15px;
+            border-left: 4px solid #ffb600;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        
+        .lesson-content li .example-box span {
+            display: block;
+            font-size: 0.95rem;
+            color: #666;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .coll-group h3 {
+            background: #ffb600;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Thiết lập cho thanh điều hướng (Navbar) */
+        nav {
+            background-color: #ffb600;
+            padding: 10px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex; /* Sử dụng Flexbox để dàn hàng ngang */
+            justify-content: center; /* Căn giữa các mục menu */
+            gap: 20px; /* Khoảng cách giữa các mục */
+        }
+
+        nav ul li {
+            display: inline-block;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Hiệu ứng khi di chuột qua */
+        nav ul li a:hover {
+            background-color: #ffaa00;
+            color: white;
+        }
+
+        /* CSS cho mục Quiz để sửa lỗi chính tả và đồng bộ style */
+        nav ul li a[href="quizz.html"] {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+  <ul>
+    <li><a href="../index.html">🏠 Home</a></li>
+    <li><a href="../lessons.html">📘 Lessons</a></li>
+    <li><a href="../games.html">🎮 Games</a></li>
+    <li><a href="../discuss.html">💬 Discuss</a></li>
+    <li><a href="../status.html">📊 Status</a></li>
+    <li><a href="../quizz.html">📝 Quiz</a></li>
+  </ul>
+</nav>
+    <div class="content">
+        <h1>Destination C1 & C2 – Unit 2: Thinking and Learning</h1>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+            <div class="progress" style="width: 50%;">50%</div>
+        </div>
+
+        <div class="unit-box">
+            <!-- Vocabulary Section -->
+            <div class="lesson-section">
+                <button class="toggle-btn" aria-expanded="false">Vocabulary (62 words)</button>
+                <div class="lesson-content">
+                    <ol>
+                        <li>
+                            <strong>assess (v)</strong> <span class="phonetics">/əˈses/</span><br>
+                            <span class="meaning">Meaning (VI): đánh giá</span>
+                            <div class="example-box">
+                                Example: We need to <strong>assess</strong> the impact of the new policy.
+                                <span>Dịch: Chúng tôi cần đánh giá tác động của chính sách mới.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>assume (v)</strong> <span class="phonetics">/əˈsjuːm/</span><br>
+                            <span class="meaning">Meaning (VI): giả định, cho rằng</span>
+                            <div class="example-box">
+                                Example: I <strong>assumed</strong> he was telling the truth.
+                                <span>Dịch: Tôi đã cho rằng anh ấy đang nói sự thật.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>baffle (v)</strong> <span class="phonetics">/ˈbæf.əl/</span><br>
+                            <span class="meaning">Meaning (VI): làm rối trí</span>
+                            <div class="example-box">
+                                Example: His strange behavior <strong>baffled</strong> me.
+                                <span>Dịch: Hành vi kỳ lạ của anh ta khiến tôi bối rối.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>biased (adj)</strong> <span class="phonetics">/ˈbaɪəst/</span><br>
+                            <span class="meaning">Meaning (VI): thiên vị</span>
+                            <div class="example-box">
+                                Example: The report was <strong>biased</strong> against immigrants.
+                                <span>Dịch: Báo cáo có thiên vị chống lại người nhập cư.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>contemplate (v)</strong> <span class="phonetics">/ˈkɒn.təm.pleɪt/</span><br>
+                            <span class="meaning">Meaning (VI): suy ngẫm</span>
+                            <div class="example-box">
+                                Example: She <strong>contemplated</strong> moving to a new city.
+                                <span>Dịch: Cô ấy suy nghĩ về việc chuyển đến thành phố mới.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>deduce (v)</strong> <span class="phonetics">/dɪˈdjuːs/</span><br>
+                            <span class="meaning">Meaning (VI): suy luận, suy diễn</span>
+                            <div class="example-box">
+                                Example: We <strong>deduced</strong> from her expression that she was angry.
+                                <span>Dịch: Chúng tôi suy luận từ biểu cảm của cô ấy rằng cô ấy đang tức giận.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>deliberate (v)</strong> <span class="phonetics">/dɪˈlɪb.ər.eɪt/</span><br>
+                            <span class="meaning">Meaning (VI): cân nhắc, thảo luận kỹ lưỡng</span>
+                            <div class="example-box">
+                                Example: The jury <strong>deliberated</strong> for five hours before reaching a verdict.
+                                <span>Dịch: Bồi thẩm đoàn đã cân nhắc trong năm giờ trước khi đưa ra phán quyết.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>dilemma (n)</strong> <span class="phonetics">/daɪˈlem.ə/</span><br>
+                            <span class="meaning">Meaning (VI): tình thế tiến thoái lưỡng nan</span>
+                            <div class="example-box">
+                                Example: She's in a <strong>dilemma</strong> about whether to take the job or not.
+                                <span>Dịch: Cô ấy đang ở trong tình thế tiến thoái lưỡng nan về việc có nên nhận công việc đó hay không.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>discriminate (v)</strong> <span class="phonetics">/dɪˈskrɪm.ɪ.neɪt/</span><br>
+                            <span class="meaning">Meaning (VI): phân biệt đối xử</span>
+                            <div class="example-box">
+                                Example: The law should not <strong>discriminate</strong> against anyone.
+                                <span>Dịch: Pháp luật không nên phân biệt đối xử với bất kỳ ai.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>estimate (v)</strong> <span class="phonetics">/ˈes.tɪ.meɪt/</span><br>
+                            <span class="meaning">Meaning (VI): ước tính, ước lượng</span>
+                            <div class="example-box">
+                                Example: It's difficult to <strong>estimate</strong> the total cost.
+                                <span>Dịch: Rất khó để ước tính tổng chi phí.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>faith (n)</strong> <span class="phonetics">/feɪθ/</span><br>
+                            <span class="meaning">Meaning (VI): niềm tin</span>
+                            <div class="example-box">
+                                Example: I have <strong>faith</strong> that she will succeed.
+                                <span>Dịch: Tôi tin rằng cô ấy sẽ thành công.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>gather (v)</strong> <span class="phonetics">/ˈɡæð.ər/</span><br>
+                            <span class="meaning">Meaning (VI): suy ra, kết luận</span>
+                            <div class="example-box">
+                                Example: I <strong>gather</strong> from your expression that you're not happy with the plan.
+                                <span>Dịch: Tôi suy ra từ biểu cảm của bạn là bạn không hài lòng với kế hoạch.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>genius (n)</strong> <span class="phonetics">/ˈdʒiː.ni.əs/</span><br>
+                            <span class="meaning">Meaning (VI): thiên tài</span>
+                            <div class="example-box">
+                                Example: He's a <strong>genius</strong> at mathematics.
+                                <span>Dịch: Anh ấy là một thiên tài toán học.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>grasp (v)</strong> <span class="phonetics">/ɡrɑːsp/</span><br>
+                            <span class="meaning">Meaning (VI): nắm bắt, hiểu rõ</span>
+                            <div class="example-box">
+                                Example: It's hard to <strong>grasp</strong> the full implications of the new law.
+                                <span>Dịch: Thật khó để nắm bắt đầy đủ ý nghĩa của luật mới.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>hunch (n)</strong> <span class="phonetics">/hʌntʃ/</span><br>
+                            <span class="meaning">Meaning (VI): linh cảm</span>
+                            <div class="example-box">
+                                Example: I have a <strong>hunch</strong> that something good is going to happen.
+                                <span>Dịch: Tôi có linh cảm rằng một điều gì đó tốt đẹp sắp xảy ra.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>ideology (n)</strong> <span class="phonetics">/ˌaɪ.diˈɒl.ə.dʒi/</span><br>
+                            <span class="meaning">Meaning (VI): hệ tư tưởng</span>
+                            <div class="example-box">
+                                Example: The party's <strong>ideology</strong> is based on socialism.
+                                <span>Dịch: Hệ tư tưởng của đảng dựa trên chủ nghĩa xã hội.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>ingenious (adj)</strong> <span class="phonetics">/ɪnˈdʒiː.ni.əs/</span><br>
+                            <span class="meaning">Meaning (VI): khéo léo, tài tình</span>
+                            <div class="example-box">
+                                Example: The solution he came up with was truly <strong>ingenious</strong>.
+                                <span>Dịch: Giải pháp anh ấy nghĩ ra thực sự tài tình.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>inspiration (n)</strong> <span class="phonetics">/ˌɪn.spɪˈreɪ.ʃən/</span><br>
+                            <span class="meaning">Meaning (VI): nguồn cảm hứng</span>
+                            <div class="example-box">
+                                Example: She found <strong>inspiration</strong> in nature.
+                                <span>Dịch: Cô ấy tìm thấy nguồn cảm hứng trong tự nhiên.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>intuition (n)</strong> <span class="phonetics">/ˌɪn.tʃuˈɪʃ.ən/</span><br>
+                            <span class="meaning">Meaning (VI): trực giác</span>
+                            <div class="example-box">
+                                Example: My <strong>intuition</strong> told me not to trust him.
+                                <span>Dịch: Trực giác của tôi mách bảo không nên tin anh ta.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>justify (v)</strong> <span class="phonetics">/ˈdʒʌs.tɪ.faɪ/</span><br>
+                            <span class="meaning">Meaning (VI): biện minh</span>
+                            <div class="example-box">
+                                Example: You don't have to <strong>justify</strong> your decision to me.
+                                <span>Dịch: Bạn không cần phải biện minh quyết định của mình với tôi.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>motive (n)</strong> <span class="phonetics">/ˈməʊ.tɪv/</span><br>
+                            <span class="meaning">Meaning (VI): động cơ</span>
+                            <div class="example-box">
+                                Example: The police are trying to determine the suspect's <strong>motive</strong>.
+                                <span>Dịch: Cảnh sát đang cố gắng xác định động cơ của nghi phạm.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>naive (adj)</strong> <span class="phonetics">/naɪˈiːv/</span><br>
+                            <span class="meaning">Meaning (VI): ngây thơ</span>
+                            <div class="example-box">
+                                Example: He was a little <strong>naive</strong> to believe she would help him.
+                                <span>Dịch: Anh ấy hơi ngây thơ khi tin rằng cô ấy sẽ giúp đỡ anh.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>notion (n)</strong> <span class="phonetics">/ˈnəʊ.ʃən/</span><br>
+                            <span class="meaning">Meaning (VI): quan niệm, ý niệm</span>
+                            <div class="example-box">
+                                Example: I have a vague <strong>notion</strong> of what the book is about.
+                                <span>Dịch: Tôi có một ý niệm mơ hồ về nội dung cuốn sách.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>prejudiced (adj)</strong> <span class="phonetics">/ˈpredʒ.ə.dɪst/</span><br>
+                            <span class="meaning">Meaning (VI): có thành kiến</span>
+                            <div class="example-box">
+                                Example: Some people are still <strong>prejudiced</strong> against women in power.
+                                <span>Dịch: Một số người vẫn có thành kiến với phụ nữ nắm quyền.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>presume (v)</strong> <span class="phonetics">/prɪˈzjuːm/</span><br>
+                            <span class="meaning">Meaning (VI): cho rằng, giả định</span>
+                            <div class="example-box">
+                                Example: I <strong>presume</strong> you've already had lunch.
+                                <span>Dịch: Tôi cho rằng bạn đã ăn trưa rồi.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>query (v, n)</strong> <span class="phonetics">/ˈkwɪə.ri/</span><br>
+                            <span class="meaning">Meaning (VI): truy vấn, câu hỏi</span>
+                            <div class="example-box">
+                                Example: If you have any <strong>queries</strong>, please contact us.
+                                <span>Dịch: Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ với chúng tôi.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>reflect (v)</strong> <span class="phonetics">/rɪˈflekt/</span><br>
+                            <span class="meaning">Meaning (VI): suy ngẫm</span>
+                            <div class="example-box">
+                                Example: He was left to <strong>reflect</strong> on his mistakes.
+                                <span>Dịch: Anh ấy ở lại để suy ngẫm về những sai lầm của mình.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>speculate (v)</strong> <span class="phonetics">/ˈspek.jə.leɪt/</span><br>
+                            <span class="meaning">Meaning (VI): phỏng đoán</span>
+                            <div class="example-box">
+                                Example: We can only <strong>speculate</strong> about the future.
+                                <span>Dịch: Chúng ta chỉ có thể phỏng đoán về tương lai.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>suppose (v)</strong> <span class="phonetics">/səˈpəʊz/</span><br>
+                            <span class="meaning">Meaning (VI): giả sử, cho rằng</span>
+                            <div class="example-box">
+                                Example: I <strong>suppose</strong> you're right.
+                                <span>Dịch: Tôi cho là bạn đúng.</span>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Phrasal Verbs Section -->
+            <div class="lesson-section">
+                <button class="toggle-btn" aria-expanded="false">Phrasal Verbs</button>
+                <div class="lesson-content">
+                    <ul>
+                        <li>
+                            <strong>brush up (on)</strong><br>
+                            <span class="meaning">Meaning (VI): ôn lại, trau dồi kiến thức/kỹ năng</span>
+                            <div class="example-box">
+                                Example: I need to <strong>brush up on</strong> my Spanish before the trip.
+                                <span>Dịch: Tôi cần ôn lại tiếng Tây Ban Nha trước chuyến đi.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>come (a)round (to)</strong><br>
+                            <span class="meaning">Meaning (VI): thay đổi ý kiến (do bị thuyết phục)</span>
+                            <div class="example-box">
+                                Example: She didn’t like the idea at first, but eventually <strong>came round to</strong> it.
+                                <span>Dịch: Ban đầu cô ấy không thích ý tưởng đó, nhưng cuối cùng đã bị thuyết phục.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>come up with</strong><br>
+                            <span class="meaning">Meaning (VI): nghĩ ra (ý tưởng/kế hoạch)</span>
+                            <div class="example-box">
+                                Example: He <strong>came up with</strong> a great marketing strategy.
+                                <span>Dịch: Anh ấy đã nghĩ ra một chiến lược tiếp thị tuyệt vời.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>face up to</strong><br>
+                            <span class="meaning">Meaning (VI): đối mặt với (sự thật, khó khăn)</span>
+                            <div class="example-box">
+                                Example: You have to <strong>face up to</strong> your responsibilities.
+                                <span>Dịch: Bạn phải đối mặt với trách nhiệm của mình.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>figure out</strong><br>
+                            <span class="meaning">Meaning (VI): hiểu ra, tìm ra (giải pháp)</span>
+                            <div class="example-box">
+                                Example: I can't <strong>figure out</strong> why this code isn't working.
+                                <span>Dịch: Tôi không hiểu tại sao đoạn mã này không hoạt động.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>hit upon</strong><br>
+                            <span class="meaning">Meaning (VI): tình cờ nghĩ ra một ý hay</span>
+                            <div class="example-box">
+                                Example: She **hit upon** the perfect title for her book.
+                                <span>Dịch: Cô ấy tình cờ nghĩ ra một tiêu đề hoàn hảo cho cuốn sách của mình.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>make out</strong><br>
+                            <span class="meaning">Meaning (VI): nhìn, nghe, hiểu khó khăn</span>
+                            <div class="example-box">
+                                Example: Can you **make out** what he’s saying?
+                                <span>Dịch: Bạn có thể hiểu được anh ta đang nói gì không?</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>mull over</strong><br>
+                            <span class="meaning">Meaning (VI): suy nghĩ kỹ lưỡng</span>
+                            <div class="example-box">
+                                Example: I need to **mull over** the offer before I decide.
+                                <span>Dịch: Tôi cần suy nghĩ kỹ về lời đề nghị trước khi quyết định.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>piece together</strong><br>
+                            <span class="meaning">Meaning (VI): ghép nối thông tin để hiểu</span>
+                            <div class="example-box">
+                                Example: The detective **pieced together** the evidence.
+                                <span>Dịch: Thám tử đã ghép nối các bằng chứng với nhau.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>puzzle out</strong><br>
+                            <span class="meaning">Meaning (VI): tìm ra lời giải cho vấn đề rắc rối</span>
+                            <div class="example-box">
+                                Example: We finally **puzzled out** what the error meant.
+                                <span>Dịch: Cuối cùng chúng tôi cũng giải được lỗi đó nghĩa là gì.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>read up (on/about)</strong><br>
+                            <span class="meaning">Meaning (VI): tìm hiểu kỹ (qua đọc sách)</span>
+                            <div class="example-box">
+                                Example: I need to **read up on** the history of this place.
+                                <span>Dịch: Tôi cần tìm hiểu kỹ về lịch sử nơi này.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>swot up (on)</strong><br>
+                            <span class="meaning">Meaning (VI): học nhồi, cày bài thi</span>
+                            <div class="example-box">
+                                Example: She’s **swotting up on** biology for her final.
+                                <span>Dịch: Cô ấy đang cày môn sinh học cho kỳ thi cuối kỳ.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>take in</strong><br>
+                            <span class="meaning">Meaning (VI): hiểu; bị lừa</span>
+                            <div class="example-box">
+                                Example: I was completely **taken in** by his story.
+                                <span>Dịch: Tôi đã bị lừa hoàn toàn bởi câu chuyện của anh ta.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>think over</strong><br>
+                            <span class="meaning">Meaning (VI): cân nhắc kỹ</span>
+                            <div class="example-box">
+                                Example: **Think it over** before you decide.
+                                <span>Dịch: Hãy cân nhắc kỹ trước khi bạn quyết định.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>think through</strong><br>
+                            <span class="meaning">Meaning (VI): suy xét thấu đáo</span>
+                            <div class="example-box">
+                                Example: You need to **think it through** before acting.
+                                <span>Dịch: Bạn cần suy nghĩ kỹ trước khi hành động.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>think up</strong><br>
+                            <span class="meaning">Meaning (VI): nghĩ ra, sáng tạo ra</span>
+                            <div class="example-box">
+                                Example: I've got to **think up** an idea for the party.
+                                <span>Dịch: Tôi phải nghĩ ra một ý tưởng cho bữa tiệc.</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Collocations Section -->
+            <div class="lesson-section">
+                <button class="toggle-btn" aria-expanded="false">Collocations</button>
+                <div class="lesson-content">
+                    <div class="coll-group">
+                        <h3>Nhóm: Account</h3>
+                        <ul>
+                            <li>
+                                <strong>account for</strong><br>
+                                <span class="meaning">Meaning (VI): giải thích cho, là nguyên nhân của</span>
+                                <div class="example-box">
+                                    Example: The poor weather may **account for** the small crowd.
+                                    <span>Dịch: Thời tiết xấu có thể là nguyên nhân của đám đông nhỏ.</span>
+                                </div>
+                            </li>
+                            <li>
+                                <strong>(give) an account of</strong><br>
+                                <span class="meaning">Meaning (VI): tường thuật, thuật lại</span>
+                                <div class="example-box">
+                                    Example: He gave a vivid **account of** his trip.
+                                    <span>Dịch: Anh ấy đã kể lại chi tiết chuyến đi của mình.</span>
+                                </div>
+                            </li>
+                            <li>
+                                <strong>take into account / take account of</strong><br>
+                                <span class="meaning">Meaning (VI): cân nhắc, tính đến</span>
+                                <div class="example-box">
+                                    Example: We must **take** environmental concerns **into account**.
+                                    <span>Dịch: Chúng ta phải tính đến các mối quan ngại về môi trường.</span>
+                                </div>
+                            </li>
+                            <li>
+                                <strong>on account of</strong><br>
+                                <span class="meaning">Meaning (VI): vì lý do</span>
+                                <div class="example-box">
+                                    Example: The game was postponed **on account of** the rain.
+                                    <span>Dịch: Trận đấu đã bị hoãn vì trời mưa.</span>
+                                </div>
+                            </li>
+                            <li>
+                                <strong>by all accounts</strong><br>
+                                <span class="meaning">Meaning (VI): theo như mọi người nói</span>
+                                <div class="example-box">
+                                    Example: **By all accounts**, she's a great teacher.
+                                    <span>Dịch: Theo như mọi người nói, cô ấy là một giáo viên tuyệt vời.</span>
+                                </div>
+                            </li>
+                            <li>
+                                <strong>on sb’s account</strong><br>
+                                <span class="meaning">Meaning (VI): vì lợi ích của ai đó</span>
+                                <div class="example-box">
+                                    Example: Don't cancel your trip **on my account**.
+                                    <span>Dịch: Đừng hủy chuyến đi của bạn vì tôi.</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="coll-group">
+                        <h3>Nhóm: Brain</h3>
+                        <ul>
+                            <li>
+                                <strong>(have a) brain like a sieve</strong><br>
+                                <span class="meaning">Meaning (VI): có một cái đầu óc hay quên</span>
+                                <div class="example-box">
+                                    Example: I’m so forgetful, I have a **brain like a sieve**.
+                                    <span>Dịch: Tôi đãng trí quá, đầu óc tôi như cái sàng vậy.</span>
+                                </div>
+                            </li>
+                            <li>
+                                <strong>pick sb's brain(s)</strong><br>
+                                <span class="meaning">Meaning (VI): hỏi ý kiến, tận dụng kiến thức của ai đó</span>
+                                <div class="example-box">
+                                    Example: I need to **pick your brain** about this project.
+                                    <span>Dịch: Tôi cần hỏi ý kiến bạn về dự án này.</span>
+                                </div>
+                            </li>
+                            <li>
+                                <strong>the brains behind</strong><br>
+                                <span class="meaning">Meaning (VI): người đứng sau kế hoạch/thành công</span>
+                                <div class="example-box">
+                                    Example: She’s the **brains behind** our latest campaign.
+                                    <span>Dịch: Cô ấy là bộ não đứng sau chiến dịch mới nhất của chúng tôi.</span>
+                                </div>
+                            </li>
+                            <li>
+                                <strong>brainless</strong><br>
+                                <span class="meaning">Meaning (VI): ngu ngốc, thiếu suy nghĩ</span>
+                                <div class="example-box">
+                                    Example: It was a **brainless** thing to do.
+                                    <span>Dịch: Đó là một việc làm ngu ngốc.</span>
+                                </div>
+                            </li>
+                            <li>
+                                <strong>brainstorm</strong><br>
+                                <span class="meaning">Meaning (VI): động não</span>
+                                <div class="example-box">
+                                    Example: We need to **brainstorm** ideas for the ad.
+                                    <span>Dịch: Chúng ta cần động não để tìm ý tưởng cho quảng cáo.</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="coll-group">
+                        <h3>Nhóm: Conclusion</h3>
+                        <ul>
+                            <li>
+                                <strong>bring sth to a conclusion</strong><br>
+                                <span class="meaning">Meaning (VI): đưa cái gì đến kết luận/kết thúc</span>
+                                <div class="example-box">
+                                    Example: Let’s **bring** this meeting **to a conclusion**.
+                                    <span>Dịch: Hãy đưa cuộc họp này đến một kết luận.</span>
+                                </div>
+                            </li>
+                            <li>
+                                <strong>come to / arrive at / reach a conclusion</strong><br>
+                                <span class="meaning">Meaning (VI): đi đến kết luận</span>
+                                <div class="example-box">
+                                    Example: The police **came to the conclusion** that it was murder.
+                                    <span>Dịch: Cảnh sát đã đi đến kết luận rằng đó là một vụ giết người.</span>
+                                </div>
+                            </li>
+                            <li>
+                                <strong>jump/leap to conclusions</strong><br>
+                                <span class="meaning">Meaning (VI): vội vàng kết luận</span>
+                                <div class="example-box">
+                                    Example: Don’t **jump to conclusions** without knowing the facts.
+                                    <span>Dịch: Đừng vội vàng kết luận khi chưa biết sự thật.</span>
+                                </div>
+                            </li>
+                            <li>
+                                <strong>in conclusion</strong><br>
+                                <span class="meaning">Meaning (VI): tóm lại, để kết luận</span>
+                                <div class="example-box">
+                                    Example: **In conclusion**, we must invest more in education.
+                                    <span>Dịch: Tóm lại, chúng ta phải đầu tư nhiều hơn vào giáo dục.</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="coll-group">
+                        <h3>Nhóm: Doubt</h3>
+                        <ul>
+                            <li>
+                                <strong>have your doubts about</strong><br>
+                                <span class="meaning">Meaning (VI): nghi ngờ về</span>
+                                <div class="example-box">
+                                    Example: I **have my doubts about** his honesty.
+                                    <span>Dịch: Tôi nghi ngờ về sự trung thực của anh ấy.</span>
+                                </div>
+                            </li>
+                            <li>
+                                <strong>cast doubt on</strong><br>
+                                <span class="meaning">Meaning (VI): gieo rắc nghi ngờ</span>
+                                <div class="example-box">
+                                    Example: The new evidence **casts doubt on** the verdict.
+                                    <span>Dịch: Bằng chứng mới gieo rắc nghi ngờ về phán quyết.</span>
+                                </div>
+                            </li>
+                            <li>
+                                <strong>raise doubts</strong><br>
+                                <span class="meaning">Meaning (VI): làm dấy lên nghi ngờ</span>
+                                <div class="example-box">
+                                    Example: The incident **raised doubts** about his integrity.
+                                    <span>Dịch: Vụ việc đã làm dấy lên nghi ngờ về sự liêm chính của anh ta.</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Idioms Section -->
+            <div class="lesson-section">
+                <button class="toggle-btn" aria-expanded="false">Idioms</button>
+                <div class="lesson-content">
+                    <ul>
+                        <li>
+                            <strong>go to your head</strong><br>
+                            <span class="phonetics">/ɡəʊ tuː jɔːr hed/</span><br>
+                            <span class="meaning">Meaning (VI): khiến ai đó kiêu ngạo, tự cao</span>
+                            <div class="example-box">
+                                Example: Don’t let success **go to your head**.
+                                <span>Dịch: Đừng để thành công khiến bạn tự cao.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>have your wits about you</strong><br>
+                            <span class="phonetics">/hæv jɔːr wɪts əˈbaʊt juː/</span><br>
+                            <span class="meaning">Meaning (VI): tỉnh táo, phản ứng nhanh</span>
+                            <div class="example-box">
+                                Example: You need to **have your wits about you** in this job.
+                                <span>Dịch: Bạn cần tỉnh táo trong công việc này.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>be in the dark (about)</strong><br>
+                            <span class="phonetics">/biː ɪn ðə dɑːk əˈbaʊt/</span><br>
+                            <span class="meaning">Meaning (VI): không biết gì về điều gì</span>
+                            <div class="example-box">
+                                Example: I’m still **in the dark about** the changes.
+                                <span>Dịch: Tôi vẫn chưa biết gì về những thay đổi đó.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>not have a leg to stand on</strong><br>
+                            <span class="phonetics">/nɒt hæv ə leɡ tuː stænd ɒn/</span><br>
+                            <span class="meaning">Meaning (VI): không có cơ sở để chứng minh</span>
+                            <div class="example-box">
+                                Example: Your argument doesn’t **have a leg to stand on**.
+                                <span>Dịch: Lập luận của bạn không có cơ sở.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>put two and two together</strong><br>
+                            <span class="phonetics">/pʊt tuː ænd tuː təˈɡeðər/</span><br>
+                            <span class="meaning">Meaning (VI): đoán điều gì dựa trên những gì thấy/nghe</span>
+                            <div class="example-box">
+                                Example: I **put two and two together** and realized she was leaving.
+                                <span>Dịch: Tôi đã đoán ra rằng cô ấy sắp rời đi.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>quick/slow on the uptake</strong><br>
+                            <span class="phonetics">/kwɪk/sləʊ ɒn ðə ˈʌpteɪk/</span><br>
+                            <span class="meaning">Meaning (VI): hiểu nhanh/chậm</span>
+                            <div class="example-box">
+                                Example: He’s very **quick on the uptake**.
+                                <span>Dịch: Anh ấy tiếp thu rất nhanh.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>ring a bell</strong><br>
+                            <span class="phonetics">/rɪŋ ə bel/</span><br>
+                            <span class="meaning">Meaning (VI): nghe quen quen</span>
+                            <div class="example-box">
+                                Example: The name **rings a bell** but I can’t place it.
+                                <span>Dịch: Cái tên nghe quen nhưng tôi không nhớ ở đâu.</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleButtons = document.querySelectorAll('.toggle-btn');
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.nextElementSibling;
+                    const isExpanded = button.getAttribute('aria-expanded') === 'true' || false;
+                    button.setAttribute('aria-expanded', !isExpanded);
+                    if (isExpanded) {
+                        content.classList.remove('visible');
+                    } else {
+                        content.classList.add('visible');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
